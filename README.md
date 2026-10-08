@@ -1,6 +1,6 @@
 # Kaloq · 支付聚合平台
 
-> **当前 1.0 需求基线**：[最小需求、第一版架构与开发鸟瞰](docs/v1.0-scope-and-plan.md)。首家为乌兹别克斯坦商户，目标 UZS 收款；每个 VA 关联 USDT 数字账户，提供四类划转、成员权限、主页及交易明细。**只接 Pyvio，KYC 与法币/数字资产兑换均由 Pyvio 完成**；不独立接 Sumsub，不自建兑换或流动性池。具体接口与权限通过联调落实。下方为旧版研究资料，发生冲突时以 1.0 基线为准。
+> **当前 V1 需求基线**：[一眼看懂的功能清单](docs/v1/README.md) · [详细需求与架构](docs/v1/detailed-requirements.md)。首家为乌兹别克斯坦商户，目标 UZS 收款及 USDT 钱包；包含收钱 Recv、Sent 法转法/数转数、自有账户法转数/数转法、Pyvio KYC 资料快照复用、成员权限和交易明细。**只接 Pyvio；资金能力和具体币种/网络以沙盒确认为准。** 下方为历史研究资料，发生冲突时以 `docs/v1/` 为准。
 
 > **2026-10-05 程序架构提案**：依据 `Kaloq_Business_Architecture.pdf` 与最新多 Provider 需求，见 [Kaloq 程序架构图与模块边界](docs/program-architecture.md)。下方 Pyvio + Actyve 方案保留为历史业务研究；新增提案不将其通道能力、自建钱包或库存模式视为已确认前提。
 
@@ -29,8 +29,9 @@
 
 | 位置 | 是什么 |
 |------|--------|
-| **[`docs/v1.0-scope-and-plan.md`](docs/v1.0-scope-and-plan.md)** | **当前 1.0 最小需求、第一版架构、开发任务与验收** |
-| **[`docs/program-architecture.md`](docs/program-architecture.md)** | 通用可扩展架构；本期范围以 1.0 基线为准 |
+| **[`docs/v1/README.md`](docs/v1/README.md)** | **当前 V1 一页功能清单与编码交接说明** |
+| **[`docs/v1/detailed-requirements.md`](docs/v1/detailed-requirements.md)** | **当前 V1 详细需求、架构、开发顺序与验收** |
+| **[`docs/program-architecture.md`](docs/program-architecture.md)** | 通用可扩展架构；本期范围以 `docs/v1/` 为准 |
 | **[`docs/EOPay.md`](docs/EOPay.md)** | **EOPay 平台功能清单：调 Pyvio / Actyve 之后对外提供什么** |
 | **[`docs/aggregation-requirements.md`](docs/aggregation-requirements.md)** | 历史：Pyvio + Actyve 聚合需求研究 |
 | **[`docs/server-architecture.md`](docs/server-architecture.md)** | **我们服务器怎么部署、怎么调度两家 API** |

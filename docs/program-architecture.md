@@ -1,6 +1,6 @@
 # Kaloq 程序架构：稳定 API 与可扩展 Provider
 
-> **1.0 范围已收敛**：见 [1.0 最小需求与开发鸟瞰](v1.0-scope-and-plan.md)。本期仅 Pyvio，面向乌兹别克斯坦商户的 UZS 收款；每个 VA 关联 USDT 数字账户，四类划转均纳入第一期。KYC 和兑换由 Pyvio 完成，不独立接 Sumsub，不自建兑换或流动性池。本文保留通用扩展设计；涉及首期币种、Provider 和交付顺序时，以新基线为准。
+> **V1 范围已收敛**：见 [V1 功能清单](v1/README.md) 与[详细需求](v1/detailed-requirements.md)。本期仅 Pyvio，面向乌兹别克斯坦商户的 UZS 收钱与 USDT 钱包；支持收钱、Sent 对外转账及自有钱包之间的法数/数法划转。KYC 和兑换由 Pyvio 完成，并在我方保留加密资料快照。不独立接 Sumsub、不自建兑换或流动性池。本文保留通用扩展设计；涉及首期范围时，以 `docs/v1/` 为准。
 
 > 架构提案 · 2026-10-05。依据根目录 `Kaloq_Business_Architecture.pdf` 两页，以及本次「网页 + 对外 API、法币收款、数字货币转账、多 Provider」需求。
 > 仓库目前只有文档，以下是待实现的设计，不代表已经运行的系统或已验证的供应商能力。
