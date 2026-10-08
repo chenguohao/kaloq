@@ -1,6 +1,6 @@
 # Kaloq · 支付聚合平台
 
-> **当前 V1 需求基线**：[一眼看懂的功能清单](docs/v1/README.md) · [详细需求与架构](docs/v1/detailed-requirements.md)。首家为乌兹别克斯坦商户，目标 UZS 收款及 USDT 钱包；包含收钱 Recv、Sent 法转法/数转数、自有账户法转数/数转法、Pyvio KYC 资料快照复用、成员权限和交易明细。**只接 Pyvio；资金能力和具体币种/网络以沙盒确认为准。** 下方为历史研究资料，发生冲突时以 `docs/v1/` 为准。
+> **当前 V1 需求基线**：[一眼看懂的功能清单](docs/v1/README.md) · [详细需求与架构](docs/v1/detailed-requirements.md)。首家为乌兹别克斯坦商户，目标 UZS 收款及 USDT 钱包；包含收钱 Recv、Sent 法转法/数转数、自有账户法转数/数转法、Pyvio KYC 资料快照复用、成员权限、交易明细和 Kaloq API 文档。网页及接入方均调用 Kaloq API，由 Kaloq 后端封装 Pyvio。**只接 Pyvio；资金能力和具体币种/网络以沙盒确认为准。** 下方为历史研究资料，发生冲突时以 `docs/v1/` 为准。
 
 > **2026-10-05 程序架构提案**：依据 `Kaloq_Business_Architecture.pdf` 与最新多 Provider 需求，见 [Kaloq 程序架构图与模块边界](docs/program-architecture.md)。下方 Pyvio + Actyve 方案保留为历史业务研究；新增提案不将其通道能力、自建钱包或库存模式视为已确认前提。
 
