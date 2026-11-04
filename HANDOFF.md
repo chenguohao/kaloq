@@ -1,8 +1,8 @@
 # Meta
 
-- Updated: 2026-11-04 17:49:38 (Asia/Shanghai)
+- Updated: 2026-11-04 17:53:30 (Asia/Shanghai)
 - Agent: Codex
-- State: working
+- State: blocked
 
 # Goal
 
@@ -25,10 +25,13 @@
 
 # In progress
 
+用户已明确授权本次 push。fetch 成功，push 因当前 mac 用户缺少 GitHub HTTPS 凭证失败；SSH 认证也失败。等待用户完成 GitHub 登录后继续。
+
 D1 技术准备包已完成，业务走查与外部依赖尚待跟进，因此 D1 全部完成条件尚未关闭。当前无正在运行的构建、数据库或部署任务。正式 apps 仍待 D2 初始化，正式数据库迁移未执行。
 
 # Blocked/questions
 
+- 当前推送阻塞：HTTPS 无法读取 GitHub Username（非交互环境无凭证），SSH 返回 Permission denied (publickey)。本机 gh 未安装，用户可先安装并使用 gh auth login 登录，或配置可用于 Git 的现有凭证。
 - 本地提交任务已完成。工作区仍有先前 Demo/历史研究改动及旧导入截图，按本次 Day1 范围单独保留，后续分别整理。
 - 开发投入、每日验收与通道联系人尚待补充；角色实际人员和金额阈值由未来管理配置维护，均不再作为 D1 开工前必须给定的参数。
 - 通道问题已成稿但尚未对外发送，缺指定收件人/发送渠道及发送授权。新通道回执、P2A 对端入账和双向闭环证据仍待核实。
@@ -37,6 +40,7 @@ D1 技术准备包已完成，业务走查与外部依赖尚待跟进，因此 D
 
 # Next
 
+0. 当前用户完成 GitHub Git 认证后，重新 fetch、核对分支并 push origin main，验证远端 HEAD。
 1. 业务方按原型走查；补充开发投入和验收/通道对接安排，发送供应商问题并登记回复。
 2. D2 初始化 v1.0 独立前后端，落实员工身份与商户入口，验证电脑/手机 WebAuthn 及恢复路径。
 3. D1–D3 评审数据/状态/API 草案，定稿多资产授权明细、实例资金位置、配置版本和人员撤销阻断；评审后落地迁移。
@@ -44,6 +48,9 @@ D1 技术准备包已完成，业务走查与外部依赖尚待跟进，因此 D
 
 # Evidence
 
+- 用户于本轮明确授权 push；git fetch origin 成功，随后 git push origin main 退出 128。
+- SSH 认证检查退出 255，Permission denied (publickey)。凭证辅助为 osxkeychain；gh 未安装。
+- Handoff evidence commit: `cfc2094`。
 - Day1 implementation/docs commit: `2f21d3182013e067733b756b4981ae0c5c162a54` — docs: establish formal 1.0 workspace and Day 1 readiness baseline
 - 此状态记录提交可由 `git log -1 -- HANDOFF.md` 定位，业务成果以上述完整哈希为准。
 - v1.0/docs/day-01/README.md
