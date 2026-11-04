@@ -1,0 +1,9 @@
+{
+  "created_at": "20261104-172358",
+  "archive": "/Users/chen/.codex/backups/kaloq-d1-20261104-172358/source-baseline.tar.gz",
+  "sha256": "96146d7c1c16849a5dd14dee7ba21b3c45d050b806f5116aad26324caacd172d",
+  "files": 167,
+  "scope": "Allowlisted source and documentation; excludes environment files, credential material, generated directories and symlinks",
+  "git_head": "aaa8dc609dca0fb096e9733eb2c7a7b16f792e9f",
+  "note": "Working tree baseline includes existing uncommitted source; no git commit created."
+}

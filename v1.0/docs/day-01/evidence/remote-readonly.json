@@ -1,0 +1,24 @@
+{
+  "checked_utc": "2026-11-04T09:24:28.550606+00:00",
+  "checks": [
+    {
+      "check": "health",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "bytes": 16,
+      "body": "{\"status\":\"ok\"}\n"
+    },
+    {
+      "check": "login_page",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 874,
+      "body": null
+    },
+    {
+      "check": "unauthenticated_me",
+      "status": 401
+    }
+  ],
+  "scope": "HTTP health, SPA document and unauthenticated access only; authenticated login and vendor calls not verified"
+}

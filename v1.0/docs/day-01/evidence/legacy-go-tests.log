@@ -1,0 +1,13 @@
+?   	kaloq/cmd/file-probe	[no test files]
+?   	kaloq/cmd/kaloq	[no test files]
+?   	kaloq/cmd/sandbox-check	[no test files]
+?   	kaloq/internal/config	[no test files]
+?   	kaloq/internal/core	[no test files]
+?   	kaloq/internal/kcrypto	[no test files]
+?   	kaloq/internal/provider	[no test files]
+?   	kaloq/internal/store	[no test files]
+?   	kaloq/internal/worker	[no test files]
+ok  	kaloq/internal/api	4.115s
+ok  	kaloq/internal/dococr	0.491s
+ok  	kaloq/internal/money	1.368s
+ok  	kaloq/internal/sandbox	2.822s

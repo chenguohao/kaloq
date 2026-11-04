@@ -1,0 +1,9 @@
+{
+  "local_links": "passed",
+  "source_archive_and_manifest": "passed",
+  "wireframe_js_syntax": "passed",
+  "wireframe_logic": "passed",
+  "toolchain_wrapper_syntax": "passed",
+  "pinned_checks": "all exit 0",
+  "browser_visual": "pending; file URL rejected by browser policy"
+}

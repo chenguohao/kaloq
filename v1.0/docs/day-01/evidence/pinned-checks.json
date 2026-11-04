@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "check": "pinned-go-version",
+      "exit_code": 0,
+      "seconds": 0.6
+    },
+    {
+      "check": "pinned-node-version",
+      "exit_code": 0,
+      "seconds": 1.64
+    },
+    {
+      "check": "pinned-npm-version",
+      "exit_code": 0,
+      "seconds": 0.42
+    },
+    {
+      "check": "pinned-postgres-start",
+      "exit_code": 0,
+      "seconds": 0.18
+    },
+    {
+      "check": "pinned-go-tests",
+      "exit_code": 0,
+      "seconds": 15.64
+    },
+    {
+      "check": "pinned-go-vet",
+      "exit_code": 0,
+      "seconds": 1.87
+    },
+    {
+      "check": "pinned-web-build",
+      "exit_code": 0,
+      "seconds": 2.79
+    },
+    {
+      "check": "pinned-postgres-stop",
+      "exit_code": 0,
+      "seconds": 0.11
+    }
+  ]
+}

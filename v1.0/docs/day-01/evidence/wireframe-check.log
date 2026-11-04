@@ -1,0 +1,2 @@
+PASS: materials gate, versioned settings, historical/new submissions, duplicate submission, approval ownership, mobile signature placeholder, invalid settings, unresolved payment states.
+Scope: source and lightweight DOM logic only; browser rendering and real security are not covered.

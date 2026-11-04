@@ -1,0 +1,40 @@
+{
+  "temporary_cluster": "/var/folders/y3/xzfvvmy522b5nr0dwl8b02y00000gq/T/kaloq-d1-zep6eayz",
+  "checks": [
+    {
+      "check": "postgres-init",
+      "exit_code": 0,
+      "seconds": 1.71
+    },
+    {
+      "check": "postgres-start",
+      "exit_code": 0,
+      "seconds": 0.39
+    },
+    {
+      "check": "postgres-create",
+      "exit_code": 0,
+      "seconds": 0.43
+    },
+    {
+      "check": "legacy-go-tests",
+      "exit_code": 0,
+      "seconds": 7.58
+    },
+    {
+      "check": "legacy-go-vet",
+      "exit_code": 0,
+      "seconds": 1.63
+    },
+    {
+      "check": "legacy-web-build",
+      "exit_code": 0,
+      "seconds": 3.5
+    },
+    {
+      "check": "postgres-stop",
+      "exit_code": 0,
+      "seconds": 0.11
+    }
+  ]
+}

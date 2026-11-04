@@ -1,5 +1,7 @@
 # 开发前准备清单 · 写代码之前要备齐什么
 
+> 历史准备研究，包含“尚无代码”等过时状态及旧范围。2026-11-03 起，本轮内部版开工与实施以 [开工准备与开发约束](1.0/development-baseline.md) 和 [15 天计划](1.0/internal-v1-15-day-plan.md) 为准；下文仅作背景，不据此重复采购或将旧建议视为已批准规则。
+
 > 目标：第一行代码写下去之前，**不会因为缺账号、缺密钥、缺决定而停工**。  
 > 对应 [platform-sketch.md](platform-sketch.md) 里的「阶段 0 开门」，预计 2–6 周，大部分时间在等两家通道回复。  
 > 范围按第一期：美元（Pyvio）+ Tron 上的 USDT（Actyve），见 [aggregation-requirements.md](aggregation-requirements.md) 第 5 节。

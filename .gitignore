@@ -20,3 +20,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# Vendor credentials stay outside version control.
+/secrets/
+/pyvio_actyve_keyfile.pdf

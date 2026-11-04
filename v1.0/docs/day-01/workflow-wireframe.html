@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaloq 1.0 · D1 操作原型</title>
+<style>
+:root { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; color: #262626; background: #f4f4f3; line-height: 1.6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+button, .button { display: inline-block; background: white; border: 1px solid #999; border-radius: 5px; padding: 8px 14px; color: #222; cursor: pointer; text-decoration: none; }
+button:hover, .button:hover { background: #ededeb; }
+button.primary, .button.primary { background: #303030; color: white; border-color: #303030; }
+button:disabled { cursor: default; color: #999; background: #eee; }
+a { color: #333; text-underline-offset: 4px; }
+header { background: #fff; border-bottom: 1px solid #ccc; padding: 20px 4vw; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+header strong { font-size: 21px; }
+header small { display: block; color: #666; }
+.notice { background: #e7e7e4; padding: 10px 4vw; font-size: 13px; }
+.layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); max-width: 1400px; margin: auto; }
+nav { padding: 30px 20px; }
+nav a { display: block; padding: 10px; margin: 3px 0; text-decoration: none; }
+nav a.active { background: #dededb; border-radius: 5px; font-weight: 600; }
+main { padding: 30px; min-width: 0; }
+h1 { font-size: 26px; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 0 0 16px; }
+h3 { font-size: 15px; margin: 10px 0; }
+p { margin: 8px 0 16px; }
+.muted { color: #666; font-size: 14px; }
+.eyebrow { font-size: 12px; letter-spacing: .06em; color: #777; margin-bottom: 6px; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.card { background: white; border: 1px solid #c9c9c5; border-radius: 7px; padding: 22px; margin: 18px 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.metric { border: 1px solid #ddd; padding: 16px; }
+.metric strong { display: block; font-size: 24px; }
+.table-wrap { overflow: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 570px; }
+th, td { padding: 13px 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; }
+th { color: #666; font-size: 13px; background: #f8f8f6; }
+.tag { display: inline-block; border: 1px solid #aaa; padding: 2px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap; }
+.callout { background: #efefed; border-left: 4px solid #555; padding: 15px 18px; margin: 18px 0; }
+label { display: block; margin: 14px 0; }
+label span { display: block; font-size: 14px; margin-bottom: 5px; }
+input, select, textarea { padding: 9px 10px; border: 1px solid #aaa; border-radius: 4px; max-width: 100%; }
+form input, form select, form textarea { width: 100%; }
+input[type=checkbox] { width: auto; }
+textarea { min-height: 85px; }
+dl { display: grid; grid-template-columns: 140px 1fr; margin: 0; gap: 10px; }
+dt { color: #666; }
+dd { margin: 0; overflow-wrap: anywhere; }
+.steps { list-style: none; padding: 0; margin: 0; }
+.steps li { border-left: 2px solid #ccc; padding: 0 0 20px 22px; position: relative; }
+.steps li:before { content: ''; position: absolute; left: -6px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+.steps li.current { border-left-color: #222; }
+.steps li.current:before { background: #222; }
+.steps small { display: block; color: #666; }
+footer { padding: 16px 30px; border-top: 1px solid #ccc; color: #666; font-size: 12px; }
+#toast { position: fixed; bottom: 24px; right: 24px; max-width: 420px; background: #222; color: white; padding: 16px; border-radius: 6px; display: none; z-index: 4; }
+:focus-visible { outline: 3px solid #555; outline-offset: 3px; }
+@media (max-width: 780px) { .layout { display: block; } nav { padding: 8px 18px; display: flex; gap: 5px; flex-wrap: wrap; } main { padding: 18px; } .grid, .metrics { grid-template-columns: 1fr; } dl { grid-template-columns: 100px 1fr; } header { padding: 16px 18px; } }
+</style>
+</head>
+<body>
+<header>
+  <div><strong>Kaloq · 内部工作台</strong><small>1.0 / 第一天流程评审 / 2026-11-04</small></div>
+  <label class="row" style="margin:0">演示身份
+    <select id="identity" aria-label="演示身份">
+      <option value="operator">运营 · 演示员工</option>
+      <option value="financeA">财务 A · 演示员工</option>
+      <option value="financeB">财务 B · 演示员工</option>
+    </select>
+  </label>
+</header>
+<div class="notice">离线低保真原型 · 全部商户、金额和状态均为虚构样例 · 表单仅保存在本次页面内存中 · 审批与认证仅演示界面 · 刷新页面重置</div>
+<div class="layout">
+  <nav aria-label="主要导航">
+    <a href="#merchants" data-nav="merchants">商户列表</a>
+    <a href="#approvals" data-nav="approvals">我的审批 <span id="approval-count"></span></a>
+    <a href="#settings" data-nav="settings">业务设置（演示）</a>
+    <a href="#guide" data-nav="guide">评审说明</a>
+  </nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<footer>覆盖 P06 / P07 / P08 / P11 / P12 / P13 / P16 / P17 / P31–P32。真实权限、资金控制和个人签名须由正式系统实现并验收。</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+const merchants = [
+  { id: 'M-EXAMPLE-001', name: '示例商户甲', contact: '示例联系人甲', ready: true },
+  { id: 'M-EXAMPLE-002', name: '示例商户乙', contact: '示例联系人乙', ready: false }
+];
+let businessSettings = Object.freeze({ version: 1, finance: 'financeA', eoThreshold: '10000.00', testAmount: '3.000000' });
+const initialPolicyA = Object.freeze({ ...businessSettings });
+const initialPolicyB = Object.freeze({ ...businessSettings, version: 0, finance: 'financeB' });
+const financeName = owner => owner === 'financeA' ? '财务 A' : '财务 B';
+const orders = [
+  { id: 'O-EXAMPLE-001', merchant: 'M-EXAMPLE-001', direction: 'f2d', amount: '1000.00', scenario: 'arrival', policySnapshot: initialPolicyA },
+  { id: 'O-EXAMPLE-002', merchant: 'M-EXAMPLE-001', direction: 'd2f', amount: '500.000000', scenario: 'unknown', policySnapshot: initialPolicyB }
+];
+const approvals = [
+  { id: 'A-EXAMPLE-001', owner: 'financeA', order: 'O-EXAMPLE-001', status: 'pending' },
+  { id: 'A-EXAMPLE-002', owner: 'financeB', order: 'O-EXAMPLE-002', status: 'pending' }
+];
+let identity = 'operator';
+let toastTimer;
+const main = document.querySelector('#main');
+const escapeText = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+const directionName = direction => direction === 'f2d' ? '法币转数币' : '数币转法币';
+const sourceAsset = direction => direction === 'f2d' ? 'USD' : 'USDT';
+const statusText = { materials: '待补资料', draft: '待提交申请', pending: '等待财务审批', arrival: '目标到账待核实', unknown: '结果未知' };
+function link(label, route, primary = false) { return `<a class="button ${primary ? 'primary' : ''}" href="#${route}">${label}</a>`; }
+function title(code, heading, description) { return `<div class="eyebrow">${code} · 流程评审原型</div><h1>${heading}</h1><p class="muted">${description}</p>`; }
+function notice(message) {
+  const toast = document.querySelector('#toast');
+  toast.textContent = message;
+  toast.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.style.display = 'none'; }, 6000);
+}
+function merchantFor(order) { return merchants.find(merchant => merchant.id === order.merchant); }
+function orderTable(items) {
+  if (!items.length) return '<p class="muted">当前商户还没有业务订单，可从服务入口创建。</p>';
+  return `<div class="table-wrap"><table><thead><tr><th>订单</th><th>方向 / 来源金额</th><th>当前环节</th><th>操作</th></tr></thead><tbody>${items.map(order => `<tr><td>${order.id}</td><td>${directionName(order.direction)}<br>${escapeText(order.amount)} ${sourceAsset(order.direction)}</td><td><span class="tag">${statusText[order.scenario]}</span></td><td><a href="#order/${order.id}">查看流程</a></td></tr>`).join('')}</tbody></table></div>`;
+}
+function renderMerchants() {
+  main.innerHTML = title('P06', '商户列表', '运营从商户进入服务工作台，所有业务保留明确的商户归属。') +
+    `<div class="toolbar"><label style="margin:0"><input id="search" placeholder="搜索商户名称或 ID" aria-label="搜索商户"></label>${identity === 'operator' ? link('创建商户档案', 'create-merchant', true) : ''}</div><div class="card table-wrap"><table><thead><tr><th>商户名称 / ID</th><th>资料状态</th><th>平台状态</th><th>操作</th></tr></thead><tbody id="merchant-rows"></tbody></table></div>`;
+  const drawRows = query => {
+    const visible = merchants.filter(merchant => `${merchant.name} ${merchant.id}`.toLowerCase().includes(query.toLowerCase()));
+    document.querySelector('#merchant-rows').innerHTML = visible.length ? visible.map(merchant => `<tr><td><strong>${escapeText(merchant.name)}</strong><br><small>${merchant.id}</small></td><td>${merchant.ready ? '资料齐备（样例）' : '待补企业资料'}</td><td>可查看</td><td><a href="#merchant/${merchant.id}">进入工作台</a></td></tr>`).join('') : '<tr><td colspan="4">没有匹配的商户</td></tr>';
+  };
+  drawRows('');
+  document.querySelector('#search').addEventListener('input', event => drawRows(event.target.value));
+}
+function renderCreateMerchant() {
+  if (identity !== 'operator') return renderDenied();
+  main.innerHTML = title('P07', '创建商户档案', '保存基本资料后生成平台商户 ID，通道开户在工作台中单独办理。') +
+    `<form id="merchant-form" class="card"><label><span>商户主体名称</span><input name="name" required maxlength="80" placeholder="请输入虚构示例名称"></label><label><span>联系人</span><input name="contact" required maxlength="40" placeholder="请输入虚构联系人"></label><p class="muted">资料确认凭证与 KYC/KYB 在后续补齐。</p><div class="row"><button class="primary">保存档案（演示）</button>${link('返回列表', 'merchants')}</div></form>`;
+  document.querySelector('#merchant-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const fields = new FormData(event.target);
+    const name = String(fields.get('name')).trim();
+    const contact = String(fields.get('contact')).trim();
+    if (!name || !contact) return notice('请填写主体名称和联系人。');
+    const merchant = { id: `M-EXAMPLE-${String(merchants.length + 1).padStart(3, '0')}`, name, contact, ready: false };
+    merchants.push(merchant);
+    location.hash = `merchant/${merchant.id}`;
+  });
+}
+function renderMerchant(id) {
+  const merchant = merchants.find(item => item.id === id);
+  if (!merchant) return renderMissing();
+  main.innerHTML = title('P08', escapeText(merchant.name), `${merchant.id} · 联系人 ${escapeText(merchant.contact)} · 资料版本 v1（演示）`) +
+    `<div class="row">${link('返回商户列表', 'merchants')}${identity === 'operator' ? link('新建业务订单', `create-order/${merchant.id}`, true) : ''}</div>` +
+    (!merchant.ready ? '<div class="callout"><strong>当前待补资料</strong><p>企业资料与客户确认凭证待补齐。可以登记业务草稿，资金申请保持等待。</p><button id="materials">查看补件要求</button></div>' : '') +
+    `<div class="card"><h2>资金摘要 · 虚构样例</h2><div class="metrics"><div class="metric">可用美元<strong>2,000.00 USD</strong></div><div class="metric">审批占用<strong>0.00 USD</strong></div><div class="metric">跨平台在途<strong>1,000.00 USD</strong></div></div><p class="muted">上游观测值与本地账面分别展示。原型金额为固定展示样例。</p></div><div class="card"><h2>收款目标与资料</h2><p>链上目标 T-EXAMPLE-ONLY · 资料版本 v2 · 网络待业务及通道确认</p><p>银行目标 BANK-EXAMPLE-ONLY · 资料版本 v1 · 虚构银行信息</p><p class="muted">实际付款审批页需要展示完整已审核目标与客户确认凭证。</p></div><div class="card"><h2>业务订单</h2>${orderTable(orders.filter(order => order.merchant === id))}</div>`;
+  document.querySelector('#materials')?.addEventListener('click', () => notice('补件示例：企业主体资料、联系人资料、客户确认凭证。上游字段清单待核定。'));
+}
+function renderCreateOrder(merchantId) {
+  if (identity !== 'operator') return renderDenied();
+  const merchant = merchants.find(item => item.id === merchantId);
+  if (!merchant) return renderMissing();
+  main.innerHTML = title('P11', '新建业务订单', `${escapeText(merchant.name)} · ${merchant.id}`) +
+    `<form class="card" id="order-form"><div class="grid"><label><span>业务方向</span><select name="direction" id="direction"><option value="f2d">法币转数币 · USD → USDT</option><option value="d2f">数币转法币 · USDT → USD</option></select></label><label><span id="amount-label">来源金额 · USD</span><input name="amount" required inputmode="decimal" pattern="[0-9]+([.][0-9]{1,6})?" value="1000.00"></label></div><label><span>原始指令摘要</span><textarea name="instruction" placeholder="请只输入虚构测试内容"></textarea></label><div class="callout">正式业务采用 USD，HKD 仅保留为 Demo / 沙盒联调样例。平台收费本期不启用，通道费用随报价及回执核对。本次保存为业务草稿。</div><div class="row"><button class="primary">保存草稿（演示）</button>${link('返回商户', `merchant/${merchantId}`)}</div></form>`;
+  document.querySelector('#direction').addEventListener('change', event => { document.querySelector('#amount-label').textContent = `来源金额 · ${sourceAsset(event.target.value)}`; });
+  document.querySelector('#order-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const fields = new FormData(event.target);
+    const amount = String(fields.get('amount'));
+    if (!/[1-9]/.test(amount)) return notice('请输入大于零的示例金额。');
+    const order = { id: `O-EXAMPLE-${String(orders.length + 1).padStart(3, '0')}`, merchant: merchantId, direction: fields.get('direction'), amount, scenario: merchant.ready ? 'draft' : 'materials' };
+    orders.push(order);
+    location.hash = `order/${order.id}`;
+  });
+}
+function stageList(order) {
+  const stages = order.direction === 'f2d'
+    ? ['业务建单', '入金核验', '划转 / P2A 申请与审批', '来源通道执行', 'Actyve 到账核验', '测试付款（适用时）', '正式付款申请与审批', '链上出款', '商户确认与对账']
+    : ['业务建单及报价确认', '收款地址 / 收 U', '入金核验与归集', 'A2P 申请与审批', 'A2P 执行', 'Pyvio 主账户到账', '子账户分发', '银行付款申请与审批', '商户确认与对账'];
+  const current = { materials: 0, draft: 2, pending: order.direction === 'f2d' ? 2 : 3, arrival: order.direction === 'f2d' ? 4 : 5, unknown: 4 }[order.scenario];
+  return `<ol class="steps">${stages.map((stage, index) => `<li class="${index === current ? 'current' : ''}"><strong>${index + 1}. ${stage}</strong><small>${index < current ? '示例前置阶段已满足' : index === current ? statusText[order.scenario] : '等待前置条件'}</small></li>`).join('')}</ol>`;
+}
+function renderOrder(id) {
+  const order = orders.find(item => item.id === id);
+  if (!order) return renderMissing();
+  const merchant = merchantFor(order);
+  const descriptions = {
+    materials: '企业资料与客户确认凭证待补齐，资金申请等待资料核验。',
+    draft: '登记草稿后，核验实际入金、报价和收款资料，再准备资金申请。',
+    pending: '本申请等待指定审批人办理，使用提交时固定的人员和规则版本。EO 门槛可在业务设置中调整，新设置用于后续申请。',
+    arrival: '来源已扣款，目标到账证据尚未匹配。资金保留在途，等待查询和核验。',
+    unknown: '通道请求结果待核实。保留占用，向原执行通道查询同一订单。'
+  };
+  main.innerHTML = title('P12', `${id} · ${directionName(order.direction)}`, `${escapeText(merchant.name)} · 申请版本 v1 · 示例更新时间 2026-11-04 09:00（上海）`) +
+    `<div class="toolbar">${link('返回商户工作台', `merchant/${merchant.id}`)}<label class="row" style="margin:0">原型场景<select id="scenario">${Object.entries(statusText).map(([value, label]) => `<option value="${value}" ${value === order.scenario ? 'selected' : ''}>${label}</option>`).join('')}</select></label></div><div class="callout"><strong>${statusText[order.scenario]}</strong><p>${descriptions[order.scenario]}</p><div class="row">${identity === 'operator' && ['draft', 'materials'].includes(order.scenario) ? link('准备资金申请', `request/${id}`, true) : ''}${['arrival', 'unknown'].includes(order.scenario) ? '<button id="query-original">查询原单（演示）</button><button id="show-exception">查看待核实事项</button>' : ''}</div></div><div class="grid"><div class="card"><h2>业务流程 Pipeline</h2>${stageList(order)}</div><div><div class="card"><h2>本笔申请摘要</h2><dl><dt>来源金额</dt><dd>${escapeText(order.amount)} ${sourceAsset(order.direction)}</dd><dt>目标资产</dt><dd>${order.direction === 'f2d' ? 'USDT · 网络待确认' : 'USD'}</dd><dt>目标资料</dt><dd>${order.direction === 'f2d' ? 'T-EXAMPLE-ONLY / v2' : 'BANK-EXAMPLE-ONLY / v1'}</dd><dt>平台收费</dt><dd>本期不启用</dd><dt>通道费用</dt><dd>按报价及回执核对</dd><dt>规则版本</dt><dd>${order.policySnapshot ? `提交版本 v${order.policySnapshot.version} · EO 门槛 ${escapeText(order.policySnapshot.eoThreshold)} USD · 测试款 ${escapeText(order.policySnapshot.testAmount)} USDT` : `尚未提交，当前设置 v${businessSettings.version}`}</dd><dt>审批条件</dt><dd>${order.scenario === 'pending' ? '尚未全部满足' : '按当前申请阶段核验'}</dd><dt>执行通道</dt><dd>${order.direction === 'f2d' ? 'Pyvio → Actyve' : 'Actyve → Pyvio'}（样例路径）</dd></dl></div><div class="card"><h2>证据与下一步</h2><p>实际入款、原始指令、报价确认、收款目标与执行回执分别关联本单。</p><p class="muted">此处仅展示审批条件是否满足。个人意见、签名和审批附件在指定员工的本人审批页展示。</p><button id="evidence">查看证据清单</button></div></div></div>`;
+  document.querySelector('#scenario').addEventListener('change', event => { order.scenario = event.target.value; render(); });
+  document.querySelector('#query-original')?.addEventListener('click', () => notice('原型查询结束，状态仍待核实。正式系统需查询原服务商的原订单。'));
+  document.querySelector('#show-exception')?.addEventListener('click', () => notice('待核实事项：来源扣款回执、目标到账流水、跨平台关联号、实际费用及通道回复。'));
+  document.querySelector('#evidence').addEventListener('click', () => notice('证据清单：原始指令、目标 v1/v2、客户确认、实际入金、报价版本、原单回执和对账记录。'));
+}
+function renderRequest(id) {
+  if (identity !== 'operator') return renderDenied();
+  const order = orders.find(item => item.id === id);
+  if (!order) return renderMissing();
+  const blocked = !merchantFor(order).ready || order.scenario === 'materials';
+  const alreadySubmitted = Boolean(order.policySnapshot);
+  const policy = order.policySnapshot || businessSettings;
+  main.innerHTML = title('P13', '准备资金申请', `${id} · ${escapeText(merchantFor(order).name)} · ${directionName(order.direction)}`) +
+    `<div class="card"><dl><dt>来源金额</dt><dd>${escapeText(order.amount)} ${sourceAsset(order.direction)}</dd><dt>平台收费</dt><dd>本期不启用</dd><dt>通道费用</dt><dd>按报价预留，随回执核对</dd><dt>目标资料版本</dt><dd>${order.direction === 'f2d' ? 'T-EXAMPLE-ONLY · v2 · 网络待确认' : 'BANK-EXAMPLE-ONLY · v1'}</dd><dt>规则版本</dt><dd>v${policy.version}${alreadySubmitted ? ' · 提交时已固定' : ' · 提交时固定'}</dd><dt>财务审批人</dt><dd>${financeName(policy.finance)}（演示人员）</dd><dt>审批路线</dt><dd>财务 → 主管 → EO（按配置门槛）</dd><dt>EO 门槛</dt><dd>${escapeText(policy.eoThreshold)} USD（虚构配置值）</dd><dt>测试款</dt><dd>${escapeText(policy.testAmount)} USDT（虚构配置值）</dd></dl><div class="callout">${blocked ? '资料不足。请补齐资料与客户确认凭证，资金申请保持等待。' : alreadySubmitted ? '本申请版本已经提交，人员和规则版本已固定。更新设置用于新申请。' : '正式提交需核验实际入金、通道费用、网络与报价，并完成资金占用。'}</div><button disabled>提交正式资金申请</button></div><div class="card"><h2>流程评审操作</h2><p class="muted">演示提交会固定当前规则版本及指定审批人。设置调整后，已提交申请继续使用原版本。</p><div class="row"><button id="demo-submit" ${blocked || alreadySubmitted ? 'disabled' : ''}>演示提交至${financeName(policy.finance)}</button>${link('业务设置', 'settings')}${link('返回订单', `order/${id}`)}</div></div>`;
+  document.querySelector('#demo-submit').addEventListener('click', () => {
+    if (blocked || order.policySnapshot) return;
+    order.policySnapshot = Object.freeze({ ...businessSettings });
+    approvals.push({ id: `A-EXAMPLE-${String(approvals.length + 1).padStart(3, '0')}`, owner: order.policySnapshot.finance, order: id, status: 'pending' });
+    order.scenario = 'pending';
+    location.hash = `order/${id}`;
+    notice(`已固定规则 v${order.policySnapshot.version}。切换${financeName(order.policySnapshot.finance)}可查看本人待办。`);
+  });
+}
+function renderApprovals() {
+  const own = approvals.filter(approval => approval.owner === identity);
+  main.innerHTML = title('P16', '我的审批', '待办和办理记录归属当前员工，消息及待办数量使用相同范围。') +
+    `<div class="card">${own.length ? `<div class="table-wrap"><table><thead><tr><th>审批单</th><th>关联业务</th><th>状态</th><th>操作</th></tr></thead><tbody>${own.map(approval => `<tr><td>${approval.id}</td><td>${approval.order}</td><td>${approval.status === 'pending' ? '待本人办理' : approval.status === 'accepted' ? '演示接受 · 等待后续节点' : '演示拒绝 · 后续规则待定'}</td><td><a href="#approval/${approval.id}">查看本人审批</a></td></tr>`).join('')}</tbody></table></div>` : '<p>当前员工没有分配到的审批。</p>'}</div><p class="muted">评审时切换财务 A / 财务 B，可查看各自独立的样例待办。页面层演示隔离，服务端权限在正式开发中验收。</p>`;
+}
+function renderApproval(id) {
+  const approval = approvals.find(item => item.id === id && item.owner === identity);
+  if (!approval) return renderDenied();
+  const order = orders.find(item => item.id === approval.order);
+  main.innerHTML = title('P17', '核对并办理本人审批', `${id} · 固定申请版本 v1 · ${approval.order}`) +
+    `<div class="card"><h2>本次审批内容</h2><dl><dt>商户</dt><dd>${escapeText(merchantFor(order).name)}</dd><dt>来源金额</dt><dd>${escapeText(order.amount)} ${sourceAsset(order.direction)}</dd><dt>目标资料</dt><dd>${order.direction === 'f2d' ? 'T-EXAMPLE-ONLY · v2 · 网络待确认' : 'BANK-EXAMPLE-ONLY · v1'}</dd><dt>平台收费</dt><dd>本期不启用</dd><dt>通道费用</dt><dd>随报价及回执核对</dd><dt>规则版本</dt><dd>v${order.policySnapshot.version} · EO 门槛 ${escapeText(order.policySnapshot.eoThreshold)} USD · 测试款 ${escapeText(order.policySnapshot.testAmount)} USDT（虚构配置值）</dd><dt>前置条件</dt><dd>按节点展示是否满足</dd></dl></div>` +
+    (approval.status === 'pending' ? `<form id="approval-form" class="card"><h2>本人核验与签署 · 界面占位</h2><label><span>核验意见（演示文字）</span><textarea name="opinion" placeholder="请勿输入真实敏感信息"></textarea></label><label><input type="checkbox" id="checked-snapshot" required> 已核对当前展示的金额、币种、目标版本与原始指令</label><label><span>二次验证</span><button type="button" id="demo-2fa">演示完成 Google Authenticator 验证</button><small id="twofa-state" class="muted"> 尚未演示</small></label><label><span>个人签名</span><select id="signature-device" aria-label="签名设备"><option value="电脑">电脑签名</option><option value="手机">手机签名</option></select><button type="button" id="demo-signature">演示个人设备签署当前版本</button><small id="signature-state" class="muted"> 支持电脑和手机，待本人签署</small></label><div class="callout">真实审批需要有效报价、完整规则、一次性挑战和个人签名校验。此处用于评审操作顺序。</div><div class="row"><button class="primary" name="decision" value="accepted">演示接受</button><button name="decision" value="rejected">演示拒绝</button>${link('返回我的审批', 'approvals')}</div></form>` : `<div class="card"><h2>${approval.status === 'accepted' ? '已演示接受，等待后续审批节点' : '已演示拒绝，后续流转规则待确认'}</h2><p>本次页面记录已保存，重复办理入口关闭。</p>${link('返回我的审批', 'approvals')}</div>`);
+  let twoFactorDone = false;
+  let signatureDone = false;
+  document.querySelector('#demo-2fa')?.addEventListener('click', () => { twoFactorDone = true; document.querySelector('#twofa-state').textContent = ' 演示完成'; });
+  document.querySelector('#demo-signature')?.addEventListener('click', () => { signatureDone = true; document.querySelector('#signature-state').textContent = ` 已演示${document.querySelector('#signature-device').value}签署申请 v1 / 规则 v${order.policySnapshot.version}`; });
+  document.querySelector('#approval-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!twoFactorDone || !signatureDone) return notice('请先演示二次验证和个人签名两个步骤。');
+    approval.status = event.submitter.value;
+    render();
+    notice('已记录本次演示决定。付款执行仍待后续审批与执行条件。');
+  });
+}
+function renderSettings() {
+  main.innerHTML = title('P31–P32', '业务设置 · 演示配置', `当前规则 v${businessSettings.version} · 实际配置由获授权员工维护并留痕`) +
+    `<div class="callout">角色人员、EO 门槛和测试款支持随时配置。每次保存生成新版本，后续提交使用新版本。已提交申请保留原人员、金额和规则快照。</div><form class="card" id="settings-form"><h2>新提交申请的规则</h2><label><span>指定财务审批人</span><select name="finance"><option value="financeA" ${businessSettings.finance === 'financeA' ? 'selected' : ''}>财务 A · 演示员工</option><option value="financeB" ${businessSettings.finance === 'financeB' ? 'selected' : ''}>财务 B · 演示员工</option></select></label><div class="grid"><label><span>EO 门槛 · USD</span><input name="eoThreshold" required inputmode="decimal" value="${escapeText(businessSettings.eoThreshold)}"></label><label><span>测试款 · USDT</span><input name="testAmount" required inputmode="decimal" value="${escapeText(businessSettings.testAmount)}"></label></div><p class="muted">初始金额为虚构演示值。正式系统还须配置主管、EO 的具体人员、门槛计算口径及测试款计入方式。</p><div class="row"><button class="primary">保存新版本（演示）</button>${link('返回商户列表', 'merchants')}</div></form><div class="card"><h2>本期范围</h2><dl><dt>正式法币</dt><dd>USD</dd><dt>HKD</dt><dd>仅 Demo / 沙盒联调样例</dd><dt>平台收费</dt><dd>本期不启用</dd><dt>通道费用</dt><dd>随报价及实际回执核对，保留账务记录</dd><dt>个人签名</dt><dd>电脑与手机均支持，正式实现需分别验收</dd></dl></div>`;
+  document.querySelector('#settings-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const fields = new FormData(event.target);
+    const finance = String(fields.get('finance'));
+    const eoThreshold = String(fields.get('eoThreshold')).trim();
+    const testAmount = String(fields.get('testAmount')).trim();
+    if (!['financeA', 'financeB'].includes(finance)) return notice('请选择有效的演示审批人。');
+    if (!/^[0-9]+([.][0-9]{1,2})?$/.test(eoThreshold) || !/[1-9]/.test(eoThreshold)) return notice('EO 门槛须为正数，USD 最多两位小数。');
+    if (!/^[0-9]+([.][0-9]{1,6})?$/.test(testAmount) || !/[1-9]/.test(testAmount)) return notice('测试款须为正数，USDT 最多六位小数。');
+    businessSettings = Object.freeze({ version: businessSettings.version + 1, finance, eoThreshold, testAmount });
+    renderSettings();
+    notice(`规则 v${businessSettings.version} 已保存，用于后续新提交申请。`);
+  });
+}
+function renderGuide() {
+  main.innerHTML = title('D1', '流程评审说明', '可按以下路径完成第一天界面走查。') + `<div class="card"><h2>建议走查顺序</h2><ol><li>运营进入商户甲，查看两笔不同方向订单及卡点。</li><li>新建商户，检查生成 ID、待补资料与资金申请阻断。</li><li>返回商户甲，新建订单，准备资金申请并演示提交。</li><li>切换被指派的财务员工，演示核验、二次验证和电脑或手机签名。</li><li>切换另一财务身份，核对各自待办。直接访问他人的审批链接显示无权访问。</li><li>更新业务设置的指定人、EO 门槛和测试款，核对旧申请版本，再提交新申请查看新版本。</li><li>订单场景切换到来源已扣待到账、结果未知，检查查询原单与待核实说明。</li></ol></div><div class="card"><h2>业务确认与实现准备</h2><p>正式法币采用 USD，HKD 仅作为 Demo / 沙盒样例。人员、EO 门槛和测试款可配置。电脑和手机均支持个人签名。平台收费本期不启用，通道费用随回执核对。</p><p>网络、报价有效期、门槛计算口径、拒绝与重提、测试款计入方式及恢复授权需在相应配置和实施前落实。</p><p>金额、收款目标和通道状态均为虚构样例。审批记录的真实个人隔离、签名安全和资金不重复执行，需要后端专项验收。</p></div>${link('开始查看商户', 'merchants', true)}`;
+}
+function renderDenied() { main.innerHTML = title('权限边界', '无权访问此操作', '请使用分配到该任务的员工身份。') + link('返回我的审批', 'approvals'); }
+function renderMissing() { main.innerHTML = title('未找到', '此示例记录不存在', '刷新会重置本次创建的演示数据。') + link('返回商户列表', 'merchants'); }
+function render() {
+  const [page, id] = location.hash.slice(1).split('/');
+  const route = page || 'merchants';
+  document.querySelector('#approval-count').textContent = `(${approvals.filter(approval => approval.owner === identity && approval.status === 'pending').length})`;
+  document.querySelectorAll('[data-nav]').forEach(element => element.classList.toggle('active', element.dataset.nav === route));
+  switch (route) {
+    case 'merchants': renderMerchants(); break;
+    case 'create-merchant': renderCreateMerchant(); break;
+    case 'merchant': renderMerchant(id); break;
+    case 'create-order': renderCreateOrder(id); break;
+    case 'order': renderOrder(id); break;
+    case 'request': renderRequest(id); break;
+    case 'approvals': renderApprovals(); break;
+    case 'approval': renderApproval(id); break;
+    case 'guide': renderGuide(); break;
+    case 'settings': renderSettings(); break;
+    default: renderMissing();
+  }
+}
+document.querySelector('#identity').addEventListener('change', event => {
+  identity = event.target.value;
+  location.hash = identity === 'operator' ? 'merchants' : 'approvals';
+  render();
+});
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+render();
+</script>
+</body>
+</html>
