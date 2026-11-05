@@ -1,66 +1,59 @@
 # Meta
 
-- Updated: 2026-11-04 17:56:45 (Asia/Shanghai)
+- Updated: 2026-11-05 12:07:25 (Asia/Shanghai)
 - Agent: Codex
 - State: working
 
 # Goal
 
-执行正式版 1.0 第一天任务，交付可评审的范围、配置、复用、数据流程、原型和环境准备包，并登记尚待业务走查与通道确认的事项。
+交付 Day2 正式应用、员工身份/2FA/恢复、商户入口和个人签名技术验证，发布正式沙盒并登记待验收事项。
 
 # Done
 
-- 已落实 Git commits (standing)：有意义的代码/文档成果本地提交，提交后记录哈希。
-- 已整理提交 75 个 Day1/正式目录相关文件，暂存区凭证模式与路径检查通过；正式资料中的沙盒账号标识已脱敏。
-- 已阅读正式开发入口、约束、排期、内部流程、页面、资金路径、安全和签名对账资料。
-- 用户确认已同步到相关基线：HKD 为沙盒样例，正式业务法币 USD；角色人员、EO 门槛和测试款可更新配置；电脑手机签名；平台收费后续单列，通道实际扣费按回执核对。
-- 已交付 D1 范围/决策表、复用与双向证据审查、11 项待发送供应商问题、数据/状态/API 设计初稿及离线可点击原型。
-- 原型包含商户→订单→审批、资料与未知结果阻断、个人审批隔离、配置新版本与历史快照演示。仅虚构内存样例。
-- 代码审查记录金额边界、任务租约、提交回写恢复、多阶段释放、单 Provider 和迁移器缺口，正式迁入前修正。
-- 已创建允许列表内源代码归档及 SHA-256 清单，验证归档和逐文件哈希，可恢复代码基线。
-- 临时独立 PostgreSQL 集群下，旧版 go test、go vet、前端构建通过；原 Node 构建带版本警告。
-- 从官方源下载并核对 SHA-256，安装独立 Go 1.27.3 / Node v22.23.4。锁文件和命令入口位于 v1.0/。复测 Go 测试、vet、前端构建全部通过，Node 警告消除，临时数据库已关闭。
-- 远端只读验证 healthz 200、登录页 HTML 200、未认证 me 401；服务 active、用户 kaloq-demo、监听 127.0.0.1:4101。
-- 正式资料本地链接、原型 JS 语法与轻量 DOM 逻辑、工具链脚本语法检查通过。Day1 正式资料与工具链已完成本地提交。
-- 已使用本地 SSH 密钥将 Day1 提交推送至 GitHub `main`；仓库 `origin` 已改为 SSH 地址，远端 HEAD 核对为 `7a0b948673abd78160d8193a3421e6ebbb95df6d`。
+- 正式代码已写入 v1.0/apps/api、apps/web，独立依赖和构建入口；身份/商户迁移唯一来源为 v1.0/database/migrations。
+- 实现密码与强制 TOTP、受限挑战、一次性恢复码、限流、员工角色/启停、历史授权和会话撤销；Root 无隐含商户或资金权限。
+- 实现平台独立商户 ID、建档、搜索、详情、联系人加密、资料版本更新与并发冲突控制。
+- WebAuthn 登记、验签试验与撤销已实现；挑战绑定员工/会话/用途/版本，恢复后旧凭证失效，保留历史。
+- 隔离 PostgreSQL 下十项后端测试（含 race）、vet、前端构建通过。Chrome 九项全流程通过，含虚拟凭证登记/验签、恢复失效与手机宽度布局；会话撤销后清空界面的专项检查通过。
+- 正式沙盒已发布 https://v-2077.com/kaloq-v1/ ，release 20261105T040121Z。独立服务 kaloq-v1 / 4102、独立数据库 kaloq_v1_sandbox；迁移和运行身份分离。旧 kaloq-demo 仍 active 且健康。
+- 公网实际密码、TOTP、完整会话、权限限制、签名登记挑战和受限恢复检查通过；初始 owner 已回到首次绑定状态，无活动会话，未留测试认证器。
+- 发布前数据库快照已保存；发布脚本验证 Nginx，启动/路由失败可回切应用。首次发布成功不等同 D11 完整备份恢复演练。
+- 两笔 Day2 成果已本地提交；本轮没有 push。
 
 # In progress
 
-D1 技术准备包已完成，业务走查与外部依赖尚待跟进，因此 D1 全部完成条件尚未关闭。当前无正在运行的构建、数据库或部署任务。正式 apps 仍待 D2 初始化，正式数据库迁移未执行。
+Day2 核心实现与测试发布已完成，等待真实设备和业务验收；不能将整个 Day2 外部依赖计为已关闭。临时本地测试服务/数据库已关闭。正式订单、资金表和通道写执行未实现。
 
 # Blocked/questions
 
-- 本地提交任务已完成。工作区仍有先前 Demo/历史研究改动及旧导入截图，按本次 Day1 范围单独保留，后续分别整理。
-- 开发投入、每日验收与通道联系人尚待补充；角色实际人员和金额阈值由未来管理配置维护，均不再作为 D1 开工前必须给定的参数。
-- 通道问题已成稿但尚未对外发送，缺指定收件人/发送渠道及发送授权。新通道回执、P2A 对端入账和双向闭环证据仍待核实。
-- 浏览器策略拒绝 file URL，原型视觉和实际浏览器点击检查待完成。已有检查为源码/逻辑检查，不代表真实身份或资金验证。
-- 正式版首次发布尚需专用构建源、独立数据库与迁移角色、回调/会话配置。本轮仅文档、原型和开发工具链，线上只读检查，没有部署。
+- 真实电脑/手机认证器与跨端流程待本人设备验收；已有 P256 软件测试和 Chrome 虚拟认证器通过。
+- 人工无恢复码重置、Root 更换和细化管理授权待确认，相关入口保持关闭。初次绑定必须保管恢复码。
+- 实际开发投入、业务验收与通道联系人仍待补充。角色人员和阈值仍由配置维护，不写死人员。
+- USD 权限、数币网络、P2A 对端到账、反向路径和银行出款仍缺证据，未开放相关资金动作。
+- 此前 Slash 调研未证实客户资金模型与 on-ramp 能力，仍需书面确认；未据此替换现有通道。
+- 当前两个沙盒同源不同路径不是浏览器安全隔离。生产需独立 origin/RP ID，变更域名须重新登记凭证；当前资金功能关闭。
 
 # Next
 
-1. 业务方按原型走查；补充开发投入和验收/通道对接安排，发送供应商问题并登记回复。
-2. D2 初始化 v1.0 独立前后端，落实员工身份与商户入口，验证电脑/手机 WebAuthn 及恢复路径。
-3. D1–D3 评审数据/状态/API 草案，定稿多资产授权明细、实例资金位置、配置版本和人员撤销阻断；评审后落地迁移。
-4. 真实资金写操作在 D6 控制门槛通过后接入，D8 以两端实际证据核定开放路径。
+1. 业务方按 v1.0/docs/day-02/README.md 首次绑定 owner、创建运营账号，走查商户与真实设备凭证。
+2. 落实人工恢复授权和通道证据，记录实际可开放范围。
+3. D3 评审并实现业务单、阶段、Pipeline、资料/报价版本与实例绑定；资金执行按 D6 门槛。
+4. 继续本地提交；获得新的 push 指令后再推送。
 
 # Evidence
 
-- 用户于本轮明确授权 push。HTTPS 认证失败后，按用户提示使用本地 SSH 密钥；`git push origin main` 成功，远端 `refs/heads/main` 核对为 `7a0b948673abd78160d8193a3421e6ebbb95df6d`。
-- GitHub 认证阻塞记录提交：`7a0b948673abd78160d8193a3421e6ebbb95df6d`；本次记录予以更正。
-- Handoff evidence commit: `cfc2094`。
-- Day1 implementation/docs commit: `2f21d3182013e067733b756b4981ae0c5c162a54` — docs: establish formal 1.0 workspace and Day 1 readiness baseline
-- 此状态记录提交可由 `git log -1 -- HANDOFF.md` 定位，业务成果以上述完整哈希为准。
-- v1.0/docs/day-01/README.md
-- v1.0/docs/day-01/decisions-and-readiness.md
-- v1.0/docs/day-01/reuse-and-channel-review.md
-- v1.0/docs/day-01/data-and-workflow-design.md
-- v1.0/docs/day-01/workflow-wireframe.html
-- v1.0/docs/day-01/environment-and-checks.md
-- v1.0/docs/day-01/evidence/source-baseline.json
-- v1.0/docs/day-01/evidence/baseline-checks.json
-- v1.0/docs/day-01/evidence/pinned-checks.json
-- v1.0/docs/day-01/evidence/remote-readonly.json
-- v1.0/docs/day-01/evidence/deliverable-checks.json
-- v1.0/docs/day-01/evidence/check-wireframe.cjs
-- v1.0/toolchain.json
-- v1.0/scripts/with-toolchain.py
+- Day2 implementation: 3af72ef82f1b68e77a71c8b9f659413e0ec5dd16
+- Day2 deploy/evidence/docs: 2d9cb03 (chore: deploy isolated formal sandbox and record Day 2 acceptance)
+- Day1 pushed baseline: aaac74e14ca79348b0a7992886e49389c3660e91
+- 本交接自身提交可由 git log -1 -- HANDOFF.md 定位。
+- v1.0/docs/day-02/README.md
+- v1.0/apps/api/check-results.json
+- v1.0/docs/day-02/evidence/browser-result.json
+- v1.0/docs/day-02/evidence/session-expiry.json
+- v1.0/docs/day-02/evidence/remote-login.json
+- v1.0/docs/day-02/evidence/public-browser.json
+- v1.0/docs/day-02/evidence/remote-status.txt
+- v1.0/scripts/deploy-sandbox.sh
+- v1.0/deploy/runtime-grants.sql
+- https://v-2077.com/kaloq-v1/
+- Prior Slash research: https://docs.slash.com/api-reference/transfer-crypto-offramp ; https://api.slash.com/openapi ; https://docs.slash.com/openapi-v2.json
