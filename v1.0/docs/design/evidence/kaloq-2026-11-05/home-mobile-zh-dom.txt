@@ -1,0 +1,164 @@
+- link "跳转到主要内容":
+  - /url: "#main-content"
+- banner:
+  - link "Kaloq home":
+    - /url: /
+    - img "Kaloq"
+  - button "Open menu" [expanded]:
+- main:
+  - heading "让您的稳定币 走进日常生活" [level=1]:
+    - text: 让您的稳定币
+    - emphasis: 走进日常生活
+  - paragraph: 刷卡消费、全球账户持有、结算快到飞起。
+  - paragraph: 核心能力
+  - heading "可收款、可兑换、可转账、 消费" [level=2]:
+    - text: 可收款、可兑换、可转账、
+    - emphasis: 消费
+  - link "从银行或钱包收款，即时到账. 银行转账 Chase ··4021 钱包 0x8f…c3d2 +$2,500.00 received Kaloq balance $24,180.00":
+    - /url: /products/card
+    - generic: 从银行或钱包收款，即时到账.
+    - generic: 银行转账
+    - generic: Chase ··4021
+    - generic: 钱包
+    - generic: 0x8f…c3d2
+    - generic: +$2,500.00 received
+    - generic: Kaloq balance
+    - generic: $24,180.00
+  - link "稳定币→本币，随时兑。 1 USDC →即将推出 MXN 17.08 EUR 0.86 PHP 56.20 NGN 1,588 BRL 5.31 MXN 17.08 EUR 0.86 PHP 56.20 NGN 1,588 BRL 5.31 账户级外汇兑换 · 即将推出":
+    - /url: /products/global-account
+    - generic: 稳定币→本币，随时兑。
+    - generic: 1 USDC →即将推出
+    - generic: MXN 17.08
+    - generic: EUR 0.86
+    - generic: PHP 56.20
+    - generic: NGN 1,588
+    - generic: BRL 5.31
+    - generic: MXN 17.08
+    - generic: EUR 0.86
+    - generic: PHP 56.20
+    - generic: NGN 1,588
+    - generic: BRL 5.31
+    - generic: 账户级外汇兑换 · 即将推出
+  - link "自由转移资金 跨越全球网络。 $654 USDC $581 MXN":
+    - /url: /products/global-account
+    - text: 自由转移资金
+    - text: 跨越全球网络。
+    - generic: $654 USDC
+    - generic: $581 MXN
+  - link "无论走到哪里，都可以使用稳定币消费。 Blue Bottle Coffee Latte 4.20 USDC −4.20 Balance 24,175.80 APPROVED":
+    - /url: /products/card
+    - generic: 无论走到哪里，都可以使用稳定币消费。
+    - generic: Kaloq
+    - generic: Blue Bottle Coffee
+    - generic: Latte
+    - generic: "4.20"
+    - generic: USDC
+    - generic: −4.20
+    - generic: Balance
+    - generic: 24,175.80
+    - generic: APPROVED
+  - heading "即刻开通，畅享无界 消费。" [level=2]:
+    - text: 即刻开通，畅享无界
+    - emphasis: 消费。
+  - button "即开即用，卡片秒发 注册完成即可获得虚拟卡，无需填表，无需等待。":
+    - generic: 即开即用，卡片秒发
+    - generic: 注册完成即可获得虚拟卡，无需填表，无需等待。
+  - button "移动钱包支付 在支持刷卡的场所轻触手机即可支付，覆盖 150 多个国家和地区。":
+    - generic: 移动钱包支付
+    - generic: 在支持刷卡的场所轻触手机即可支付，覆盖 150 多个国家和地区。
+  - button "用稳定币消费，即时结算 从您的 USDC 余额中扣款，商户以当地货币收款。":
+    - generic: 用稳定币消费，即时结算
+    - generic: 从您的 USDC 余额中扣款，商户以当地货币收款。
+  - img "Kaloq signature physical card"
+  - paragraph: 使用场景
+  - heading "贴合您的日常 所需" [level=2]:
+    - text: 贴合您的日常
+    - emphasis: 所需
+  - button "Previous" [disabled]:
+  - button "Next":
+  - generic: 稳定币收入者
+  - generic: 链上收入，轻松用于旅行、订阅、购物和日常消费。
+  - link "了解更多":
+    - /url: /solutions/stablecoin-earners
+    - text: 了解更多
+  - generic: 跨境生活
+  - generic: 无论在哪里生活、工作或旅行，随时保有美元价值。
+  - link "了解更多":
+    - /url: /solutions/cross-border-living
+    - text: 了解更多
+  - generic: 美元资产持有者
+  - generic: 持有支持的美元稳定币，按日常所需灵活消费。
+  - link "了解更多":
+    - /url: /solutions/dollar-balance-holders
+    - text: 了解更多
+  - generic: 全球线上消费
+  - generic: 使用支持的稳定币余额支付符合条件的订阅、软件和全球线上消费。
+  - link "了解更多":
+    - /url: /solutions/global-online-spending
+    - text: 了解更多
+  - heading "以 信任为基石" [level=2]:
+    - text: 以
+    - emphasis: 信任为基石
+  - generic: MSB
+  - generic: 持牌合规
+  - generic: 美国注册，并具备欧盟 VASP 资质。
+  - generic: SOC 2
+  - generic: 审计认证
+  - generic: 通过 Type II 认证，持续接受安全审计。
+  - generic: 100%
+  - generic: 托管保障
+  - generic: 由合格且受监管的托管机构提供服务。
+  - generic: 1:1
+  - generic: 储备透明
+  - generic: 由独立审计机构按月鉴证。
+  - heading "准备好 体验了吗？" [level=2]:
+    - text: 准备好
+    - emphasis: 体验了吗？
+  - paragraph: 几分钟即可开通账户，免费开始使用。
+  - link "联系销售":
+    - /url: /contact
+- contentinfo:
+  - generic: Kaloq
+  - paragraph: 让稳定币转账与消费更轻松，服务当下用户，也面向未来的 AI 智能体。
+  - heading "产品" [level=3]
+  - list:
+    - link "Kaloq 卡":
+      - /url: /products/card
+    - link "全球账户":
+      - /url: /products/global-account
+  - heading "使用场景" [level=3]
+  - list:
+    - link "稳定币收入者":
+      - /url: /solutions/stablecoin-earners
+    - link "跨境生活人群":
+      - /url: /solutions/cross-border-living
+    - link "美元资产持有者":
+      - /url: /solutions/dollar-balance-holders
+    - link "全球网购达人":
+      - /url: /solutions/global-online-spending
+  - heading "法律信息" [level=3]
+  - list:
+    - link "服务条款":
+      - /url: /legal/terms
+    - link "隐私政策":
+      - /url: /legal/privacy
+  - paragraph: Kaloq 已在 FinCEN 注册为货币服务企业。
+  - paragraph: 卡片服务由持牌合作机构提供。
+  - paragraph: Kaloq 不是银行，稳定币余额不受 FDIC 保险保障。
+  - generic: © 2026 Kaloq, Inc.
+  - link "X / Twitter":
+    - /url: https://x.com/kaloqx
+- alert: Kaloq — Stablecoin payments for global business
+- link "Kaloq home":
+  - /url: /
+  - img "Kaloq"
+- button "Close menu":
+- button "产品":
+  - text: 产品
+  - generic: +
+- button "使用场景":
+  - text: 使用场景
+  - generic: +
+- link "价格":
+  - /url: /pricing
+- button "Switch to English" [active]: EN

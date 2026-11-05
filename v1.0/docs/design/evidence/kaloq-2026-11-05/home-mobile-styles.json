@@ -1,0 +1,273 @@
+{
+  "elements": [
+    {
+      "grid": "none",
+      "height": 65,
+      "line": "24px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "HEADER",
+      "text": "ProductsSolutionsPricing中文",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 2785.1875,
+      "line": "24px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "SECTION",
+      "text": "Make your stablecoinsspendableSpend with a card, hold in global accoun",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 155.484375,
+      "line": "51.84px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "48px",
+      "tag": "H1",
+      "text": "Make your stablecoinsspendable",
+      "width": 327
+    },
+    {
+      "grid": "none",
+      "height": 1972.28125,
+      "line": "22.5px",
+      "padding": "110px 32px",
+      "radius": "0px",
+      "size": "15px",
+      "tag": "SECTION",
+      "text": "CapabilitiesReceive, convert, move, spendReceive funds from banks and ",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 79.78125,
+      "line": "39.9px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "38px",
+      "tag": "H2",
+      "text": "Receive, convert, move, spend",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 356.0625,
+      "line": "22.5px",
+      "padding": "30px 32px",
+      "radius": "20px",
+      "size": "15px",
+      "tag": "A",
+      "text": "Receive funds from banks and wallets, instantly.Bank transferChase ··4",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 322.25,
+      "line": "22.5px",
+      "padding": "30px 32px",
+      "radius": "20px",
+      "size": "15px",
+      "tag": "A",
+      "text": "Convert stablecoins into local currencies, seamlessly.1 USDC →Coming S",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 367.5625,
+      "line": "22.5px",
+      "padding": "30px 32px",
+      "radius": "20px",
+      "size": "15px",
+      "tag": "A",
+      "text": "Move money freelyacross global networks.$654 USDC$581 MXN",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 480.625,
+      "line": "22.5px",
+      "padding": "30px 32px",
+      "radius": "20px",
+      "size": "15px",
+      "tag": "A",
+      "text": "Spend stablecoins wherever you go.KaloqBlue Bottle CoffeeLatte4.20USDC",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 1203.9375,
+      "line": "24px",
+      "padding": "90px 32px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "SECTION",
+      "text": "Get started fast. And never stop spendingIssue your card instantlyA vi",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 83.59375,
+      "line": "41.8px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "38px",
+      "tag": "H2",
+      "text": "Get started fast. And never stop spending",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 945.28125,
+      "line": "24px",
+      "padding": "110px 0px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "SECTION",
+      "text": "Use casesBuilt for how you liveStablecoin earnersTurn on-chain income ",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 79.78125,
+      "line": "39.9px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "38px",
+      "tag": "H2",
+      "text": "Built for how you live",
+      "width": 197
+    },
+    {
+      "grid": "none",
+      "height": 40,
+      "line": "24px",
+      "padding": "0px",
+      "radius": "3.35544e+07px",
+      "size": "16px",
+      "tag": "BUTTON",
+      "text": "",
+      "width": 40
+    },
+    {
+      "grid": "none",
+      "height": 40,
+      "line": "24px",
+      "padding": "0px",
+      "radius": "3.35544e+07px",
+      "size": "16px",
+      "tag": "BUTTON",
+      "text": "",
+      "width": 40
+    },
+    {
+      "grid": "none",
+      "height": 20,
+      "line": "20px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "14px",
+      "tag": "A",
+      "text": "See how",
+      "width": 79.0625
+    },
+    {
+      "grid": "none",
+      "height": 20,
+      "line": "20px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "14px",
+      "tag": "A",
+      "text": "See how",
+      "width": 79.0625
+    },
+    {
+      "grid": "none",
+      "height": 20,
+      "line": "20px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "14px",
+      "tag": "A",
+      "text": "See how",
+      "width": 79.0625
+    },
+    {
+      "grid": "none",
+      "height": 20,
+      "line": "20px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "14px",
+      "tag": "A",
+      "text": "See how",
+      "width": 79.0625
+    },
+    {
+      "grid": "none",
+      "height": 526.5,
+      "line": "24px",
+      "padding": "72px 32px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "SECTION",
+      "text": "Built on trustMSBLicensedUS registered, VASP across the EU.SOC 2Audite",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 74,
+      "line": "42px",
+      "padding": "0px 0px 32px",
+      "radius": "0px",
+      "size": "40px",
+      "tag": "H2",
+      "text": "Built on trust",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 448.09375,
+      "line": "24px",
+      "padding": "120px 32px 130px",
+      "radius": "0px",
+      "size": "16px",
+      "tag": "SECTION",
+      "text": "Ready to Ready tospend体验了吗？Open your account in minutes. Free to start",
+      "width": 375
+    },
+    {
+      "grid": "none",
+      "height": 44.09375,
+      "line": "44.1px",
+      "padding": "0px",
+      "radius": "0px",
+      "size": "42px",
+      "tag": "H2",
+      "text": "Ready to Ready tospend体验了吗？",
+      "width": 311
+    },
+    {
+      "grid": "none",
+      "height": 56,
+      "line": "24px",
+      "padding": "15px 32px",
+      "radius": "3.35544e+07px",
+      "size": "16px",
+      "tag": "A",
+      "text": "Talk to sales",
+      "width": 162.125
+    }
+  ],
+  "viewport": {
+    "height": 844,
+    "scrollWidth": 605,
+    "width": 390
+  }
+}
