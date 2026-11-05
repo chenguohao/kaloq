@@ -1,0 +1,15 @@
+{
+  "passed": [
+    "root enrollment",
+    "staff creation",
+    "operator enrollment",
+    "merchant creation",
+    "merchant update",
+    "mobile layout",
+    "virtual WebAuthn registration",
+    "virtual WebAuthn assertion",
+    "recovery and old credential invalidation"
+  ],
+  "errors": [],
+  "hardware_verified": false
+}

@@ -1,0 +1,19 @@
+[Unit]
+Description=Kaloq formal 1.0 sandbox
+After=network-online.target postgresql.service
+[Service]
+User=kaloq-v1
+Group=kaloq-v1
+WorkingDirectory=/opt/kaloq-v1/current
+EnvironmentFile=/opt/kaloq-v1/runtime.env
+ExecStart=/opt/kaloq-v1/current/kaloq serve
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/opt/kaloq-v1
+UMask=0077
+[Install]
+WantedBy=multi-user.target

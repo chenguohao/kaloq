@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "check": "unauthenticated me",
+      "status": 401
+    },
+    {
+      "check": "password login",
+      "status": 200
+    },
+    {
+      "check": "challenge cannot access staff",
+      "status": 401
+    },
+    {
+      "check": "enrollment challenge",
+      "status": 200
+    },
+    {
+      "check": "TOTP enrollment",
+      "status": 200
+    },
+    {
+      "check": "full authenticated session",
+      "status": 200
+    },
+    {
+      "check": "staff list with runtime role",
+      "status": 200
+    },
+    {
+      "check": "maintenance has no merchant rights",
+      "status": 403
+    },
+    {
+      "check": "passkey list with runtime role",
+      "status": 200
+    },
+    {
+      "check": "passkey begin with runtime role",
+      "status": 200
+    },
+    {
+      "check": "logout",
+      "status": 200
+    },
+    {
+      "check": "return login",
+      "status": 200
+    },
+    {
+      "check": "recovery resets to enrollment",
+      "status": 200
+    },
+    {
+      "check": "recovery has no full session",
+      "status": 401
+    },
+    {
+      "check": "logout restricted challenge",
+      "status": 200
+    }
+  ],
+  "owner_state": "requires_first_factor_enrollment",
+  "secrets_logged": false
+}

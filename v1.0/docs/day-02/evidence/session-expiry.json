@@ -1,0 +1,5 @@
+{
+  "check": "focus revalidation clears expired staff UI",
+  "result": "passed",
+  "method": "controlled HTTP fixtures"
+}

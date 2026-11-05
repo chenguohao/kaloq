@@ -1,0 +1,7 @@
+active
+active
+/opt/kaloq-v1/releases/20261105T040121Z
+1|0
+0
+{"status":"ok"}
+{"service":"kaloq-v1","stage":"day2","status":"ok"}
