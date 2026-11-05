@@ -42,3 +42,5 @@ input:focus,select:focus{border-color:var(--k-link);box-shadow:0 0 0 3px #25573f
 .sidebar>.brand img{height:30px}
 .mobile-brand .brand img{height:32px}
 @media(max-width:780px){.sidebar>.brand img{height:28px}}
+
+.graphic-center img{display:block;width:60px;height:60px;object-fit:contain}
