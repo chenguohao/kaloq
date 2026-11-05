@@ -20,7 +20,7 @@ function Icon({ name, size = 20 }: { name: string; size?: number }) {
   }
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name] || paths.grid}</svg>
 }
-function Brand({ light = false }: { light?: boolean }) { return <div className={`brand ${light ? 'light' : ''}`}><span>kaloq<span className="brand-dot">.</span></span></div> }
+function Brand({ light = false }: { light?: boolean }) { return <div className={`brand ${light ? 'light' : ''}`}><img src={`${import.meta.env.BASE_URL}brand/kaloq-logo-${light ? 'light' : 'dark'}.png`} alt="Kaloq" /></div> }
 function ErrorNotice({ error }: { error: string }) { return error ? <div role="alert" className="notice error">{error}</div> : null }
 function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) { return <div className="field"><label><span>{label}</span>{children}</label>{hint && <small>{hint}</small>}</div> }
 function Badge({ status }: { status: string }) { return <span className={`badge ${status}`}>{names[status] || status}</span> }

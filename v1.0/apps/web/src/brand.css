@@ -37,3 +37,8 @@ input:focus,select:focus{border-color:var(--k-link);box-shadow:0 0 0 3px #25573f
 .modal{border-radius:20px}
 @media(max-width:780px){.login-card h2{font-size:28px}.service-card{padding:22px}.button{min-height:44px}.login-card .button.full{min-height:52px}.page-heading .button{min-height:44px}}
 @media(max-width:390px){.main-content,.topbar{padding-left:16px;padding-right:16px}.sidebar nav{overflow-x:auto}.nav-item{white-space:nowrap}.service-card p,.service-card h3{overflow-wrap:anywhere}}
+
+.brand img{display:block;width:auto;height:32px;max-width:100%;object-fit:contain}
+.sidebar>.brand img{height:30px}
+.mobile-brand .brand img{height:32px}
+@media(max-width:780px){.sidebar>.brand img{height:28px}}

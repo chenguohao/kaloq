@@ -31,6 +31,6 @@ WebAuthn 编解码依据 [W3C WebAuthn](https://www.w3.org/TR/webauthn-3/)，手
 
 ## 已上线页面的视觉基线
 
-2026-11-05 根据[官网 UI 参考](../../docs/design/kaloq-official-ui-reference.md)更新现有登录页与内部工作台：暖米白背景、深森林绿区域、局部黄绿强调；主按钮为深绿胶囊，表单输入为 48px，卡片圆角约 20px。状态、业务权限与资金开放规则没有因此改变。当前以文字字标显示 `kaloq.`，待取得获准的原始 Logo/字体文件后替换，不依赖官网图片代理。
+2026-11-05 根据[官网 UI 参考](../../docs/design/kaloq-official-ui-reference.md)更新现有登录页与内部工作台：暖米白背景、深森林绿区域、局部黄绿强调；主按钮为深绿胶囊，表单输入为 48px，卡片圆角约 20px。状态、业务权限与资金开放规则没有因此改变。当前使用从官网原始 `/images/` 路径下载的深浅两版 Logo，以及官网 favicon，文件放在 `public/brand/`，随前端静态构建一起发布，不依赖官网图片代理。Instrument Serif 字体文件仍待获得后再本地托管。
 
 [视觉核验](../../docs/design/evidence/current-workspace/checks.json)使用受控虚构数据检查 320、375、390、768、1280px；截图为界面参考，不代表真实商户数据。
