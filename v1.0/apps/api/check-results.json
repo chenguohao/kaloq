@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-05",
+  "scope": "Day 2 independent API; isolated PostgreSQL; no vendor or financial writes",
+  "checks": [
+    {"command": "go test -race -count=1 -v ./...", "exit_code": 0, "server_seconds": 4.328},
+    {"command": "go vet ./...", "exit_code": 0}
+  ],
+  "suites": [
+    "TestPasskeyPolicyAndRegistration",
+    "TestPasskeyAssertionSecurity",
+    "TestPasskeyRejectsInsecureRemoteOrigin",
+    "TestPasskeyDatabaseIsolationAndAtomicity",
+    "TestPasskeyDatabaseRevocationAndRecovery",
+    "TestIdentityEnrollmentRecoveryAndMerchantIsolation",
+    "TestConcurrentOTPOnlyOnceAndChallengeExpiry",
+    "TestStaffRevocationAndMaintenanceBoundaries",
+    "TestOriginAndChallengeLimits",
+    "TestMigrationChecksumsAndDBGuard"
+  ],
+  "limits": ["Software authenticator tests do not establish physical desktop/mobile compatibility", "Manual recovery without recovery code remains disabled pending authorization policy", "Approval snapshot signatures and financial execution are later-day work"]
+}
