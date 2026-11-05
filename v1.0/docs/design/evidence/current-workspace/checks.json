@@ -1,0 +1,85 @@
+{
+  "fixture": true,
+  "results": [
+    {
+      "width": 320,
+      "login": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bg": "rgb(248, 246, 239)",
+        "button": "rgb(27, 69, 51)"
+      },
+      "workspace": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "panelRadius": "20px",
+        "pageBg": "rgb(248, 246, 239)"
+      },
+      "errors": []
+    },
+    {
+      "width": 375,
+      "login": {
+        "viewport": 375,
+        "scrollWidth": 375,
+        "bg": "rgb(248, 246, 239)",
+        "button": "rgb(27, 69, 51)"
+      },
+      "workspace": {
+        "viewport": 375,
+        "scrollWidth": 375,
+        "panelRadius": "20px",
+        "pageBg": "rgb(248, 246, 239)"
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "login": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bg": "rgb(248, 246, 239)",
+        "button": "rgb(27, 69, 51)"
+      },
+      "workspace": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "panelRadius": "20px",
+        "pageBg": "rgb(248, 246, 239)"
+      },
+      "errors": []
+    },
+    {
+      "width": 768,
+      "login": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bg": "rgb(248, 246, 239)",
+        "button": "rgb(27, 69, 51)"
+      },
+      "workspace": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "panelRadius": "20px",
+        "pageBg": "rgb(248, 246, 239)"
+      },
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "login": {
+        "viewport": 1280,
+        "scrollWidth": 1280,
+        "bg": "rgb(248, 246, 239)",
+        "button": "rgb(27, 69, 51)"
+      },
+      "workspace": {
+        "viewport": 1280,
+        "scrollWidth": 1280,
+        "panelRadius": "20px",
+        "pageBg": "rgb(248, 246, 239)"
+      },
+      "errors": []
+    }
+  ]
+}

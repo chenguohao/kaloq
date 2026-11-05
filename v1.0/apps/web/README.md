@@ -28,3 +28,9 @@ python3 v1.0/scripts/with-toolchain.py npm --prefix v1.0/apps/web run build
 订单、通道开户、资金和对账在商户工作台显示“尚未开放”。所有列表和结果来自 API，不含演示成功数据。
 
 WebAuthn 编解码依据 [W3C WebAuthn](https://www.w3.org/TR/webauthn-3/)，手动转换 base64url 以兼容尚无 JSON 辅助方法的浏览器。真实电脑、手机和恢复场景的验证记录以 `../../docs/day-02/` 为准；构建通过不代表完成真实设备验收。
+
+## 已上线页面的视觉基线
+
+2026-11-05 根据[官网 UI 参考](../../docs/design/kaloq-official-ui-reference.md)更新现有登录页与内部工作台：暖米白背景、深森林绿区域、局部黄绿强调；主按钮为深绿胶囊，表单输入为 48px，卡片圆角约 20px。状态、业务权限与资金开放规则没有因此改变。当前以文字字标显示 `kaloq.`，待取得获准的原始 Logo/字体文件后替换，不依赖官网图片代理。
+
+[视觉核验](../../docs/design/evidence/current-workspace/checks.json)使用受控虚构数据检查 320、375、390、768、1280px；截图为界面参考，不代表真实商户数据。
