@@ -1,40 +1,41 @@
 # Meta
 
-- Updated: 2026-11-05 15:47:27 (Asia/Shanghai)
+- Updated: 2026-11-05 15:52:03 (Asia/Shanghai)
 - Agent: Codex
 - State: done
 
 # Goal
 
-将用户指定的 Kaloq 官网 UI 参考纳入正式版后续页面开发入口。
+将已上线 Day2 工作台的视觉按官网 UI 参考调整，并验证与同步正式沙盒。
 
 # Done
 
-- 已阅读 v1.0/docs/design/kaloq-official-ui-reference.md、证据目录与现有内部工作台样式。
-- 已在 v1.0/AGENTS.md 和 v1.0/apps/web/README.md 写入 UI 必读参考及适用边界。
-- 现有 Day2 页面已使用相近的森林绿、浅色背景和紧凑内部工作台布局；本轮未收到具体页面改版要求，因此未改运行时 UI。
-- 文档变更已本地提交。正式服务与旧 Demo 未变更，无需部署。
+- 已阅读官网 UI 参考和现有工作台，发现原工作台仍沿用不同的页面底色、卡片圆角、按钮和输入尺寸。
+- 已增加官网实测配色与内部工作台样式层，前端构建通过。
+- 5 种视口（320/375/390/768/1280px）下登录与工作台无横向溢出、无浏览器错误；已本地提交 40697fb。
+- 正式沙盒已部署 release 20261105T075049Z；公网登录和健康接口 200，未登录 me 401；新 CSS 资源已由页面引用。
 
 # In progress
 
-- 无。本次 UI 参考纳入已完成。
+- 无，本次改版已完成。
 
 # Blocked/questions
 
-- 支付相关页面的使用者与入口、资产/网络、费用精度、交互状态及原始 Logo/字体素材仍待业务确定；官网建议不作已批准默认值。
-- 既有 Day2 真实电脑/手机凭证验收、人工恢复授权和通道证据仍待完成。
+- 官方 Logo 原始资产与 Instrument Serif 文件尚未收入仓库；当前文字标识和系统字体后备仍在使用。
+- 支付业务字段及资金状态依旧以正式版需求和通道证据为准。
 
 # Next
 
-1. 开始后续正式 UI 时先阅读指定参考文档，按内部员工流程做页面草图与响应式验收。
-2. 支付相关页面按正式资金和权限基线落地；未验证通道动作维持关闭。
-3. 获得新的 push 指令后再推送本地提交。
+1. 后续页面继续按官网参考和已确认业务规则设计。
+2. 取得官方 Logo 与字体原始资产后替换文字字标，并做真实设备视觉验收。
+3. 本轮仅本地提交；待新的 push 指令再推送。
 
 # Evidence
 
-- UI 规则提交：84553bf（本地，未 push）。
-- 官网 UI 参考及截图：v1.0/docs/design/kaloq-official-ui-reference.md；v1.0/docs/design/evidence/kaloq-2026-11-05/。
-- 规则入口：v1.0/AGENTS.md；v1.0/apps/web/README.md。
-- 本交接记录自身提交可由 git log -1 -- HANDOFF.md 定位。
-- 既有官网调研提交：ef5ead6；Day2 应用与部署提交：3af72ef、2d9cb03。
-- Validation: git diff --check -- v1.0/AGENTS.md v1.0/apps/web/README.md HANDOFF.md。
+- v1.0/docs/design/kaloq-official-ui-reference.md
+- v1.0/apps/web/src/brand.css
+- v1.0/apps/web/src/main.tsx
+- 本轮前端 npm run build 通过；v1.0/docs/design/evidence/current-workspace/checks.json。
+- UI 代码提交 40697fb。
+- 部署版本 20261105T075049Z；登录 200，healthz 200，未认证 me 401。
+- 既有 Day2 应用提交 3af72ef；UI 开发规则提交 84553bf。
