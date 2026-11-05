@@ -1,41 +1,40 @@
 # Meta
 
-- Updated: 2026-11-05 15:52:03 (Asia/Shanghai)
+- Updated: 2026-11-05 17:49:24 (Asia/Shanghai)
 - Agent: Codex
 - State: done
 
 # Goal
 
-将已上线 Day2 工作台的视觉按官网 UI 参考调整，并验证与同步正式沙盒。
+下载 Kaloq 官网原始图标并用于正式版现有界面。
 
 # Done
 
-- 已阅读官网 UI 参考和现有工作台，发现原工作台仍沿用不同的页面底色、卡片圆角、按钮和输入尺寸。
-- 已增加官网实测配色与内部工作台样式层，前端构建通过。
-- 5 种视口（320/375/390/768/1280px）下登录与工作台无横向溢出、无浏览器错误；已本地提交 40697fb。
-- 正式沙盒已部署 release 20261105T075049Z；公网登录和健康接口 200，未登录 me 401；新 CSS 资源已由页面引用。
+- 已核对官网 HTML 中的 Logo 与 favicon 路径，下载深色、浅色透明 PNG 和 favicon.ico 至 v1.0/apps/web/public/brand/。
+- 已查看原图内容，替换工作台文字字标并设置浏览器图标；不同背景使用相应深浅版本。
+- TypeScript/Vite 构建通过；320、375、390、768、1280px 浏览器预览均无横向溢出或页面错误。
+- 素材、整合与视觉证据已本地提交 7933335。
+- 正式沙盒 release 20261105T094815Z 已部署；官网三张资源在线返回 200 且 SHA-256 与本地一致，登录与健康 200，未认证 me 401。
 
 # In progress
 
-- 无，本次改版已完成。
+- 无，本次素材替换和发布已完成。
 
 # Blocked/questions
 
-- 官方 Logo 原始资产与 Instrument Serif 文件尚未收入仓库；当前文字标识和系统字体后备仍在使用。
-- 支付业务字段及资金状态依旧以正式版需求和通道证据为准。
+- Instrument Serif 字体文件仍未托管；当前系统后备字体保留。真实设备验收另行进行。
 
 # Next
 
-1. 后续页面继续按官网参考和已确认业务规则设计。
-2. 取得官方 Logo 与字体原始资产后替换文字字标，并做真实设备视觉验收。
-3. 本轮仅本地提交；待新的 push 指令再推送。
+1. 后续页面继续使用本地品牌素材；原始来源和校验值见 public/brand/README.md。
+2. 待取得 Instrument Serif 原始字体文件和真实设备验收，再处理字体及设备表现。
+3. 本轮本地提交，不 push。
 
 # Evidence
 
-- v1.0/docs/design/kaloq-official-ui-reference.md
-- v1.0/apps/web/src/brand.css
-- v1.0/apps/web/src/main.tsx
-- 本轮前端 npm run build 通过；v1.0/docs/design/evidence/current-workspace/checks.json。
-- UI 代码提交 40697fb。
-- 部署版本 20261105T075049Z；登录 200，healthz 200，未认证 me 401。
-- 既有 Day2 应用提交 3af72ef；UI 开发规则提交 84553bf。
+- 官网： https://kaloq.com/ 与 https://kaloq.com/images/kaloq-logo-dark.png、https://kaloq.com/images/kaloq-logo-light.png、https://kaloq.com/favicon.ico。
+- v1.0/apps/web/public/brand/
+- v1.0/apps/web/src/App.tsx；v1.0/apps/web/index.html。
+- 前端 npm run build 成功；v1.0/docs/design/evidence/current-workspace/checks.json；提交 7933335。
+- v1.0/apps/web/public/brand/README.md（官网来源和 SHA-256）。
+- 正式沙盒 release 20261105T094815Z：3 张资源哈希一致、login/health 200、未登录 me 401。
