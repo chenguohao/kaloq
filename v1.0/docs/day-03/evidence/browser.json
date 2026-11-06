@@ -1,0 +1,12 @@
+{
+  "passed": [
+    "Day2 运营会话打开 Day3 商户",
+    "登记商户链上目标",
+    "登记 HKD 转 USDT 业务单；丢失响应后重试原请求",
+    "修订与回看历史指令",
+    "桌面与手机订单进度",
+    "反向订单与资料缺失卡点"
+  ],
+  "page_errors": 0,
+  "fixture": "isolated PostgreSQL and synthetic data"
+}

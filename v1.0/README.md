@@ -1,6 +1,6 @@
 # Kaloq 正式版 1.0 开发区域
 
-本目录用于接下来的正式版开发。已完成 D2 独立前后端、员工身份/2FA/恢复、商户入口和 WebAuthn 验证代码，并部署正式沙盒。当天成果与验收方法见 [第二天执行记录](docs/day-02/README.md)；准备阶段见 [第一天执行记录](docs/day-01/README.md)。
+本目录用于接下来的正式版开发。已发布 Day3 商户业务单、资料与收款目标版本、双向订单进度。操作和验证见[第三天执行记录](docs/day-03/README.md)。此前记录见[第二天身份与商户入口](docs/day-02/README.md)和[第一天准备](docs/day-01/README.md)。
 
 | 目录 | 用途 |
 |---|---|
@@ -28,8 +28,8 @@ Go 和 Node 版本及官方校验和锁定在 toolchain.json。运行方式与�
 
 ## 当前可用入口
 
-- 正式沙盒：[Kaloq 1.0](https://v-2077.com/kaloq-v1/)。员工登录、强制 TOTP、恢复码、员工配置和商户基础资料可用。
-- [API 开发说明](apps/api/README.md) · [前端开发说明](apps/web/README.md) · [部署与验收](docs/day-02/README.md)。
+- 正式沙盒：[Kaloq 1.0](https://v-2077.com/kaloq-v1/)。运营可进入商户工作台登记指令、创建业务单、查看卡点和修订历史版本。
+- [API 开发说明](apps/api/README.md) · [前端开发说明](apps/web/README.md) · [部署与验收](docs/day-03/README.md)。
 - 后端独立依赖为 apps/api/go.mod；前端为 apps/web/package.json 与 package-lock.json；数据库 SQL 唯一来源为 database/migrations/。
 - 开发检查：提供隔离的 TEST_DATABASE_URL 后运行 `bash scripts/check.sh`；测试库须以 `_test` 结尾，不能使用运行库。
 - 正式沙盒发布：`bash scripts/deploy-sandbox.sh`。该脚本只构建本目录，并使用独立 kaloq-v1 服务和数据库；旧 Demo 发布脚本继续只用于旧代码。

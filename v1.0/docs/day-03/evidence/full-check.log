@@ -1,0 +1,17 @@
+?   	kaloq/v1/cmd/kaloq	[no test files]
+ok  	kaloq/v1/internal/server	6.542s
+?   	kaloq/v1/internal/store	[no test files]
+
+> @kaloq/formal-web@1.0.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 54 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.53 kB │ gzip:  0.36 kB
+dist/assets/index-DGNFiMZ2.css   24.11 kB │ gzip:  6.32 kB
+dist/assets/index-DxTKpLxc.js   274.04 kB │ gzip: 84.66 kB
+
+✓ built in 144ms

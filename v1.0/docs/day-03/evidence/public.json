@@ -1,0 +1,14 @@
+{
+  "release": "20261106T042611Z",
+  "stage": "day3",
+  "checks": {
+    "login_page": 200,
+    "health": 200,
+    "release_js": 200,
+    "orders_requires_full_session": 401,
+    "owner_password_step": 200,
+    "password_challenge_has_no_order_access": 401,
+    "clear_probe_challenge": 200
+  },
+  "new_public_order_writes": 0
+}
