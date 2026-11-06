@@ -5,6 +5,7 @@ After=network-online.target postgresql.service
 User=kaloq-v1
 Group=kaloq-v1
 WorkingDirectory=/opt/kaloq-v1/current
+Environment=KALOQ_INTAKE_FIAT=HKD
 EnvironmentFile=/opt/kaloq-v1/runtime.env
 ExecStart=/opt/kaloq-v1/current/kaloq serve
 Restart=on-failure

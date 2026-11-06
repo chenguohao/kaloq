@@ -1,0 +1,557 @@
+openapi: 3.1.0
+info:
+  title: Kaloq 正式版商户资料接口
+  version: 1.0.0
+  description: 运营角色通过完整双因素登录后使用。提交资源只记录外部凭证和资料引用；实际客户确认、财务审核与服务商执行权限独立核验。
+servers:
+- url: /api/v1
+- url: /kaloq-v1/api/v1
+security:
+- StaffSession: []
+paths:
+  /merchants/{id}/resources:
+    parameters:
+    - $ref: '#/components/parameters/Merchant'
+    get:
+      operationId: listMerchantResources
+      summary: 读取资料版本、开户/VA 登记与各目标的最新版本。仅返回脱敏信息。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resources'
+        default:
+          description: 错误。常见状态包括 400、401、403、404 和 409。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /merchants/{id}/bindings:
+    parameters:
+    - $ref: '#/components/parameters/Merchant'
+    post:
+      operationId: registerMerchantBinding
+      summary: 登记沙盒开户或 VA 证据引用。开户登记要求 account_scope；VA 要求 parent_binding_id 和 asset。
+      responses:
+        '201':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  binding:
+                    $ref: '#/components/schemas/Binding'
+                required:
+                - binding
+        default:
+          description: 错误。常见状态包括 400、401、403、404 和 409。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: 同商户、相同操作及内容的严格重试返回初次登记结果。
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  binding:
+                    $ref: '#/components/schemas/Binding'
+                required:
+                - binding
+      parameters:
+      - $ref: '#/components/parameters/Origin'
+      - $ref: '#/components/parameters/Csrf'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BindingInput'
+  /merchants/{id}/targets:
+    parameters:
+    - $ref: '#/components/parameters/Merchant'
+    post:
+      operationId: createPaymentTarget
+      summary: 创建仅属于该商户的待复核目标版本。
+      responses:
+        '201':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  target:
+                    $ref: '#/components/schemas/Target'
+                required:
+                - target
+        default:
+          description: 错误。常见状态包括 400、401、403、404 和 409。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: 同商户、相同操作及内容的严格重试返回初次登记结果。
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  target:
+                    $ref: '#/components/schemas/Target'
+                required:
+                - target
+      parameters:
+      - $ref: '#/components/parameters/Origin'
+      - $ref: '#/components/parameters/Csrf'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TargetInput'
+  /merchants/{id}/targets/{target}/versions:
+    parameters:
+    - $ref: '#/components/parameters/Merchant'
+    - $ref: '#/components/parameters/Target'
+    get:
+      operationId: readPaymentTargetHistory
+      summary: 最新版本在前，保留脱敏历史。
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Target'
+                required:
+                - items
+        default:
+          description: 错误。常见状态包括 400、401、403、404 和 409。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: revisePaymentTarget
+      summary: 按 expected_version 追加资料。同一旧版本的并发修改只会成功一次。
+      responses:
+        '201':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  target:
+                    $ref: '#/components/schemas/Target'
+                required:
+                - target
+        default:
+          description: 错误。常见状态包括 400、401、403、404 和 409。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '200':
+          description: 同商户、相同操作及内容的严格重试返回初次登记结果。
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  target:
+                    $ref: '#/components/schemas/Target'
+                required:
+                - target
+      parameters:
+      - $ref: '#/components/parameters/Origin'
+      - $ref: '#/components/parameters/Csrf'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TargetRevision'
+components:
+  securitySchemes:
+    StaffSession:
+      type: apiKey
+      in: cookie
+      name: kaloq_v1_session
+  parameters:
+    Merchant:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Target:
+      name: target
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Origin:
+      name: Origin
+      in: header
+      required: true
+      schema:
+        type: string
+    Csrf:
+      name: X-CSRF-Token
+      in: header
+      required: true
+      schema:
+        type: string
+  schemas:
+    Profile:
+      type: object
+      additionalProperties: false
+      properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+        legal_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - version
+      - legal_name
+      - created_at
+    BindingInput:
+      type: object
+      additionalProperties: false
+      properties:
+        provider_code:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9._-]{0,63}$
+        instance_code:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9._-]{0,63}$
+        kind:
+          type: string
+          enum:
+          - enrollment
+          - virtual_account
+        label:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: 服务器限制为 120 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        asset:
+          type: string
+          enum:
+          - ''
+          - USD
+          - HKD
+        profile_version:
+          type: integer
+          format: int64
+          minimum: 1
+        account_scope:
+          type: string
+          maxLength: 160
+          description: 开户记录必须使用原上游合同/账号命名空间。VA 去重使用所选开户绑定 ID。
+        external_id:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: 服务器限制为 256 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        evidence_ref:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: 服务器限制为 512 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        parent_binding_id:
+          type: string
+          description: VA 必填。同商户、同实例开户绑定 UUID；开户记录省略或传空字符串。
+      required:
+      - provider_code
+      - instance_code
+      - kind
+      - label
+      - external_id
+      - evidence_ref
+      - profile_version
+    Binding:
+      type: object
+      additionalProperties: false
+      properties:
+        provider_code:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9._-]{0,63}$
+        instance_code:
+          type: string
+          pattern: ^[a-z0-9][a-z0-9._-]{0,63}$
+        kind:
+          type: string
+          enum:
+          - enrollment
+          - virtual_account
+        label:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: 服务器限制为 120 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        asset:
+          type: string
+          enum:
+          - ''
+          - USD
+          - HKD
+        profile_version:
+          type: integer
+          format: int64
+          minimum: 1
+        id:
+          type: string
+          format: uuid
+        instance_id:
+          type: string
+          format: uuid
+        environment:
+          type: string
+          enum:
+          - sandbox
+        masked_external_id:
+          type: string
+        parent_binding_id:
+          type: string
+          format: uuid
+        review_state:
+          type: string
+          enum:
+          - pending_review
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - provider_code
+      - instance_code
+      - kind
+      - label
+      - asset
+      - profile_version
+      - id
+      - instance_id
+      - environment
+      - masked_external_id
+      - review_state
+      - created_at
+    TargetInput:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - bank
+          - chain
+        label:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: 服务器限制为 120 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        asset:
+          type: string
+          enum:
+          - USD
+          - HKD
+          - USDT
+        network:
+          type: string
+          maxLength: 64
+          description: 银行目标必须使用当前环境 fiat_asset，网络为空字符串。链上 USDT 需要提供非空的网络名称，登记不代表网络已开放。
+        request_id:
+          type: string
+          format: uuid
+        destination:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: 服务器限制为 512 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        evidence_ref:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: 服务器限制为 512 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        expected_version:
+          type: integer
+          const: 0
+      required:
+      - request_id
+      - kind
+      - label
+      - asset
+      - destination
+      - evidence_ref
+    TargetRevision:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - bank
+          - chain
+        label:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: 服务器限制为 120 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        asset:
+          type: string
+          enum:
+          - USD
+          - HKD
+          - USDT
+        network:
+          type: string
+          maxLength: 64
+          description: 银行目标必须使用当前环境 fiat_asset，网络为空字符串。链上 USDT 需要提供非空的网络名称，登记不代表网络已开放。
+        request_id:
+          type: string
+          format: uuid
+        destination:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: 服务器限制为 512 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        evidence_ref:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: 服务器限制为 512 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        expected_version:
+          type: integer
+          format: int64
+          minimum: 1
+      required:
+      - request_id
+      - kind
+      - label
+      - asset
+      - destination
+      - evidence_ref
+      - expected_version
+    Target:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - bank
+          - chain
+        label:
+          type: string
+          minLength: 1
+          maxLength: 120
+          description: 服务器限制为 120 个 UTF-8 字节，首尾空白和控制字符会被拒绝。
+        asset:
+          type: string
+          enum:
+          - USD
+          - HKD
+          - USDT
+        network:
+          type: string
+          maxLength: 64
+          description: 银行目标必须使用当前环境 fiat_asset，网络为空字符串。链上 USDT 需要提供非空的网络名称，登记不代表网络已开放。
+        id:
+          type: string
+          format: uuid
+        target_id:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+        masked_destination:
+          type: string
+        review_state:
+          type: string
+          enum:
+          - pending_review
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - kind
+      - label
+      - asset
+      - network
+      - id
+      - target_id
+      - version
+      - masked_destination
+      - review_state
+      - created_at
+    Resources:
+      type: object
+      additionalProperties: false
+      properties:
+        fiat_asset:
+          type: string
+          enum:
+          - USD
+          - HKD
+        profiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+        bindings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Binding'
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Target'
+      required:
+      - fiat_asset
+      - profiles
+      - bindings
+      - targets
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+          required:
+          - code
+          - message
+      required:
+      - error

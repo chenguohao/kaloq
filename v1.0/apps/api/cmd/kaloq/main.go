@@ -46,7 +46,14 @@ func run() error {
 	if err != nil || u.Host == "" || u.Path != "" || (u.Scheme != "https" && !(u.Scheme == "http" && (u.Hostname() == "localhost" || u.Hostname() == "127.0.0.1"))) {
 		return &configError{"PUBLIC_ORIGIN must be an HTTPS origin (localhost HTTP allowed)"}
 	}
-	s := &server.Server{Pool: pool, Key: key, Origin: origin, CookieSecure: u.Scheme == "https", CookiePath: os.Getenv("COOKIE_PATH"), WebDir: os.Getenv("WEB_DIR"), TrustProxyLoopback: os.Getenv("TRUST_PROXY_LOOPBACK") == "true"}
+	fiat := os.Getenv("KALOQ_INTAKE_FIAT")
+	if fiat == "" {
+		fiat = "USD"
+	}
+	if fiat != "HKD" && fiat != "USD" {
+		return &configError{"KALOQ_INTAKE_FIAT must be HKD or USD"}
+	}
+	s := &server.Server{IntakeFiatAsset: fiat, Pool: pool, Key: key, Origin: origin, CookieSecure: u.Scheme == "https", CookiePath: os.Getenv("COOKIE_PATH"), WebDir: os.Getenv("WEB_DIR"), TrustProxyLoopback: os.Getenv("TRUST_PROXY_LOOPBACK") == "true"}
 	if command == "bootstrap" {
 		return s.Bootstrap(ctx, os.Getenv("BOOTSTRAP_LOGIN"), os.Getenv("BOOTSTRAP_NAME"), os.Getenv("BOOTSTRAP_PASSWORD"))
 	}

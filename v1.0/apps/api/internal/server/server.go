@@ -16,6 +16,7 @@ import (
 )
 
 type Server struct {
+	IntakeFiatAsset    string
 	Pool               *pgxpool.Pool
 	Key                []byte
 	Origin             string
@@ -156,7 +157,7 @@ func (s *Server) Handler() http.Handler {
 			fail(w, 503, "unavailable", "服务暂不可用")
 			return
 		}
-		respond(w, 200, map[string]string{"status": "ok", "service": "kaloq-v1", "stage": "day2"})
+		respond(w, 200, map[string]string{"status": "ok", "service": "kaloq-v1", "stage": "day3"})
 	})
 	mux.HandleFunc("POST /api/v1/auth/login", s.login)
 	mux.HandleFunc("GET /api/v1/auth/enrollment", s.enrollment)
@@ -179,6 +180,8 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /api/v1/staff", s.auth(s.staff))
 	mux.HandleFunc("POST /api/v1/staff", s.auth(s.createStaff))
 	mux.HandleFunc("PATCH /api/v1/staff/{id}", s.auth(s.updateStaff))
+	s.registerResourceRoutes(mux)
+	s.registerOrderRoutes(mux)
 	s.registerPasskeyRoutes(mux)
 	mux.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) { fail(w, 404, "not_found", "接口不存在") })
 	if s.WebDir != "" {

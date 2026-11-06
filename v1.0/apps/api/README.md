@@ -55,3 +55,9 @@ python3 ../../scripts/with-toolchain.py go vet ./...
 2026-11-05：上述两项全部通过，服务端测试耗时约 4.3 秒。覆盖注册/登录挑战隔离、错码与过期、同一 TOTP 并发仅一次成功、CSRF/Origin、恢复码失效与重新绑定、员工停用撤销、Root 无隐含商户权限、自我提权拒绝、联系人密文、资料并发版本、迁移校验和与数据库隔离；WebAuthn 测试覆盖真实 P-256 验签、错误 Origin/RP ID/挑战/用户验证/签名、跨会话和跨员工隔离、重放、6 并发挑战仅一次成功、撤销与恢复失效。
 
 这些检查使用隔离数据和软件签名器。实际浏览器验证、手机设备范围及发布结果由 Day2 执行记录汇总，不以 API 单测替代真实设备或资金验证。
+
+## Day3 业务单
+
+服务启动时读取 `KALOQ_INTAKE_FIAT`，支持 HKD 和 USD，缺省为 USD。新建时由商户资料接口告知前端本环境的受理币种。修订和查询按原订单币种处理。新加坡沙盒的 systemd 服务显式设置 HKD。
+
+商户路径下的订单、开户与 VA 关联、收款目标及版本契约见 [订单 OpenAPI](../../docs/day-03/orders.openapi.yaml) 和[资料 OpenAPI](../../docs/day-03/resources.openapi.yaml)。API 写入沿用完整运营会话、Origin 及 CSRF 校验。

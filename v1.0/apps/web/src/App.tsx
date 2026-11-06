@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import QRCode from 'qrcode'
+import { ErrorNotice, Field, Modal } from './ui'
+import { MerchantDesk } from './MerchantDesk'
 import { passkeyAvailable, registerCredential, verifyCredential, type CreationJSON, type RequestJSON } from './webauthn'
 import { api, ApiError, clearSession, setCSRF, roleNames, type Staff, type Merchant, type Role } from './api'
 
@@ -21,8 +23,6 @@ function Icon({ name, size = 20 }: { name: string; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name] || paths.grid}</svg>
 }
 function Brand({ light = false }: { light?: boolean }) { return <div className={`brand ${light ? 'light' : ''}`}><img src={`${import.meta.env.BASE_URL}brand/kaloq-logo-${light ? 'light' : 'dark'}.png`} alt="Kaloq" /></div> }
-function ErrorNotice({ error }: { error: string }) { return error ? <div role="alert" className="notice error">{error}</div> : null }
-function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) { return <div className="field"><label><span>{label}</span>{children}</label>{hint && <small>{hint}</small>}</div> }
 function Badge({ status }: { status: string }) { return <span className={`badge ${status}`}>{names[status] || status}</span> }
 function humanError(error: unknown) {
   if (error instanceof DOMException && error.name === 'NotAllowedError') return '凭证操作已取消或超时，请再次尝试。'
@@ -100,24 +100,6 @@ function MerchantList({ onOpen }: { onOpen: (m: Merchant) => void }) {
   </>
 }
 function MerchantFields({ form, setForm }: { form: typeof initialMerchant; setForm: (v: typeof initialMerchant) => void }) { return <><Field label="商户主体名称"><input value={form.legal_name} onChange={e => { e.target.setCustomValidity(new TextEncoder().encode(e.target.value).length > 200 ? '内容超过长度上限，请缩短后重试。' : ''); setForm({ ...form, legal_name: e.target.value }) }} required maxLength={200} placeholder="完整法定名称" /></Field><Field label="联系人姓名"><input value={form.contact_name} onChange={e => { e.target.setCustomValidity(new TextEncoder().encode(e.target.value).length > 100 ? '内容超过长度上限，请缩短后重试。' : ''); setForm({ ...form, contact_name: e.target.value }) }} required maxLength={100} /></Field><Field label="联系邮箱"><input type="email" value={form.contact_email} onChange={e => { e.target.setCustomValidity(new TextEncoder().encode(e.target.value).length > 254 ? '内容超过长度上限，请缩短后重试。' : ''); setForm({ ...form, contact_email: e.target.value }) }} required maxLength={254} /></Field></> }
-function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
-  const panel = useRef<HTMLElement>(null), close = useRef(onClose)
-  close.current = onClose
-  useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null
-    const focusable = () => Array.from(panel.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled),[tabindex="0"]') || [])
-    focusable()[0]?.focus()
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close.current()
-      if (e.key === 'Tab') { const items = focusable(), first = items[0], last = items.at(-1); if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus() } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus() } }
-    }
-    const overflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    document.addEventListener('keydown', handler)
-    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = overflow; previous?.focus() }
-  }, [])
-  return <div className="modal-backdrop"><section ref={panel} className="modal" role="dialog" aria-modal="true" aria-label={title}><div className="modal-heading"><h2>{title}</h2><button className="close-button" aria-label="关闭" onClick={onClose}>×</button></div>{children}</section></div>
-}
 function MerchantDetail({ merchant, onBack }: { merchant: Merchant; onBack: () => void }) {
   const [data, setData] = useState(merchant), [editing, setEditing] = useState(false), [form, setForm] = useState(initialMerchant), [status, setStatus] = useState(merchant.service_status)
   const { busy, error, run } = useWork()
@@ -125,7 +107,7 @@ function MerchantDetail({ merchant, onBack }: { merchant: Merchant; onBack: () =
   useEffect(() => { void run(refresh) }, [merchant.id])
   return <><button className="text-button back-button" onClick={onBack}>← 全部商户</button><div className="page-heading"><div><div className="eyebrow dark">MERCHANT WORKSPACE</div><h1>{data.legal_name}</h1><p className="muted mono">{data.merchant_code}</p></div><Badge status={data.service_status} /></div><ErrorNotice error={error} />
     <section className="panel profile-panel"><div className="panel-heading"><h2>商户档案</h2><button className="text-button" onClick={() => { setForm({ legal_name: data.legal_name, contact_name: data.contact_name, contact_email: data.contact_email }); setStatus(data.service_status); setEditing(true) }}>编辑资料</button></div><dl className="detail-grid"><div><dt>联系人</dt><dd>{data.contact_name || '—'}</dd></div><div><dt>联系邮箱</dt><dd>{data.contact_email || '—'}</dd></div><div><dt>建档时间</dt><dd>{new Date(data.created_at).toLocaleString('zh-CN')}</dd></div><div><dt>平台唯一 ID</dt><dd className="mono small">{data.id}</dd></div></dl></section>
-    <div className="section-heading"><h2>商户服务</h2><span className="muted small">按验证进度逐步开放</span></div><div className="service-grid">{[{ title: '资料与通道开户', icon: 'building', text: '完善资料后申请通道账户。平台建档不代表开户已通过。' }, { title: '业务订单', icon: 'grid', text: '在商户内办理业务，跟踪每个阶段的状态与所需材料。' }, { title: '资金与对账', icon: 'shield', text: '查询经核验的资金记录与差异，保持每笔业务可追溯。' }].map(s => <section className="panel service-card" key={s.title}><span className="section-icon"><Icon name={s.icon} /></span><h3>{s.title}</h3><p className="muted">{s.text}</p><span className="closed-label"><Icon name="lock" size={14} />尚未开放</span></section>)}</div>
+    <MerchantDesk key={data.id} merchant={data} />
     {editing && <Modal title="编辑商户档案" onClose={() => { if (!busy) setEditing(false) }}><form onSubmit={e => { e.preventDefault(); run(async () => { const r = await api<{ merchant: Merchant }>(`/merchants/${data.id}`, 'PATCH', { ...form, service_status: status, row_version: data.row_version }); setData(r.merchant); setEditing(false) }) }}><MerchantFields form={form} setForm={setForm} /><Field label="平台服务状态"><select value={status} onChange={e => setStatus(e.target.value)}><option value="draft">待完善</option><option value="active">服务中</option><option value="paused">已暂停</option></select></Field><p className="small muted">此状态仅代表平台服务安排，不代表通道开户或资金动作已开放。</p><ErrorNotice error={error} /><div className="form-actions"><button type="button" className="button secondary" disabled={busy} onClick={() => run(async () => { const m = await refresh(); setForm({ legal_name: m.legal_name, contact_name: m.contact_name, contact_email: m.contact_email }); setStatus(m.service_status) })}>重新读取</button><button className="button primary" disabled={busy}>{busy ? '正在保存…' : '保存修改'}</button></div></form></Modal>}
   </>
 }

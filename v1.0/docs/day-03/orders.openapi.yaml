@@ -1,0 +1,221 @@
+openapi: 3.1.0
+info:
+  title: Kaloq 商户业务单
+  version: 1.0.0
+  description: 运营以完整员工会话登记客户指令、资料及报价，查看逐阶段状态与计划子单。新单使用商户资料接口返回的环境法币。修订沿用原业务单的币种。
+servers:
+  - url: /api/v1
+  - url: /kaloq-v1/api/v1
+security:
+  - StaffSession: []
+paths:
+  /merchants/{id}/orders:
+    parameters:
+      - $ref: '#/components/parameters/Merchant'
+    get:
+      operationId: listOrders
+      summary: 按建单时间及 ID 倒序，每页最多 100 笔
+      parameters:
+        - name: offset
+          in: query
+          schema: {type: integer, minimum: 0, maximum: 2147483647}
+      responses:
+        '200':
+          description: 当前版本摘要及下一页起点
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, next_offset]
+                properties:
+                  items: {type: array, items: {$ref: '#/components/schemas/OrderSummary'}}
+                  next_offset: {type: [integer, 'null'], minimum: 0}
+        default: {$ref: '#/components/responses/Error'}
+    post:
+      operationId: createOrder
+      summary: 以客户端稳定请求号登记主单及首版快照
+      parameters:
+        - $ref: '#/components/parameters/Origin'
+        - $ref: '#/components/parameters/Csrf'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OrderWrite'
+                - properties:
+                    expected_version: {const: 0}
+      responses:
+        '201': {$ref: '#/components/responses/Order'}
+        '200': {$ref: '#/components/responses/Replay'}
+        default: {$ref: '#/components/responses/Error'}
+  /merchants/{id}/orders/{order_id}:
+    parameters:
+      - $ref: '#/components/parameters/Merchant'
+      - $ref: '#/components/parameters/OrderID'
+    get:
+      operationId: getOrder
+      summary: 读取当前版本或指定历史版本，兼容原币种与实例
+      parameters:
+        - name: version
+          in: query
+          schema: {type: integer, format: int64, minimum: 1}
+      responses:
+        '200': {$ref: '#/components/responses/Order'}
+        default: {$ref: '#/components/responses/Error'}
+  /merchants/{id}/orders/{order_id}/versions:
+    parameters:
+      - $ref: '#/components/parameters/Merchant'
+      - $ref: '#/components/parameters/OrderID'
+    post:
+      operationId: reviseOrder
+      summary: 按 expected_version 追加完整快照，缺省的可选资料表示新版未关联该资料
+      parameters:
+        - $ref: '#/components/parameters/Origin'
+        - $ref: '#/components/parameters/Csrf'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OrderWrite'
+                - required: [expected_version]
+                  properties:
+                    expected_version: {type: integer, minimum: 1}
+      responses:
+        '201': {$ref: '#/components/responses/Order'}
+        '200': {$ref: '#/components/responses/Replay'}
+        default: {$ref: '#/components/responses/Error'}
+components:
+  securitySchemes:
+    StaffSession: {type: apiKey, in: cookie, name: kaloq_v1_session}
+  parameters:
+    Merchant: {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+    OrderID: {name: order_id, in: path, required: true, schema: {type: string, format: uuid}}
+    Origin: {name: Origin, in: header, required: true, schema: {type: string, format: uri}}
+    Csrf: {name: X-CSRF-Token, in: header, required: true, schema: {type: string}}
+  responses:
+    Order:
+      description: 指定版本的业务单详情
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/OrderEnvelope'}
+    Replay:
+      description: 同商户、同员工、同请求号和规范化载荷的重试返回初次保存的版本，即使商户资料、订单或环境默认币种后来变化
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/OrderEnvelope'}
+    Error:
+      description: 400 字段或资料归属错误，401 会话未认证，403 权限、Origin 或 CSRF 不符，404 商户/业务单/版本不存在，409 暂停服务、档案/目标/订单版本变化、法币配置变化或请求号冲突，415 请求格式错误，500 服务错误
+      content:
+        application/json:
+          schema: {$ref: 'resources.openapi.yaml#/components/schemas/Error'}
+  schemas:
+    UUID: {type: string, format: uuid}
+    Version: {type: integer, format: int64, minimum: 1}
+    Timestamp: {type: string, format: date-time}
+    Direction: {type: string, enum: [fiat_to_crypto, crypto_to_fiat]}
+    Decimal:
+      type: string
+      pattern: '^[0-9]+(\.[0-9]+)?$'
+      description: 正十进制字符串。法币最多两位小数，USDT 最多六位，最小单位上限为 38 位整数。
+    QuoteInput:
+      type: object
+      required: [rate, destination_amount, expires_at, evidence]
+      properties:
+        rate:
+          type: string
+          pattern: '^[0-9]+(\.[0-9]+)?$'
+          description: 每单位来源资产对应的目标资产报价。正数，至多 38 位数字且至多 18 位小数。
+        destination_amount: {$ref: '#/components/schemas/Decimal'}
+        expires_at: {$ref: '#/components/schemas/Timestamp'}
+        evidence: {type: string, description: 报价原始依据，至多 2048 UTF-8 字节}
+    OrderWrite:
+      type: object
+      additionalProperties: false
+      required: [request_id, direction, fiat_asset, source_amount, instruction, profile_version]
+      properties:
+        request_id: {$ref: '#/components/schemas/UUID'}
+        direction: {$ref: '#/components/schemas/Direction'}
+        fiat_asset: {type: string, enum: [HKD, USD], description: 新单使用 resources.fiat_asset，修订时使用当前订单的原法币}
+        source_amount: {$ref: '#/components/schemas/Decimal'}
+        instruction: {type: string, description: 原样记录客户原始指令，至多 8192 UTF-8 字节}
+        profile_version: {$ref: '#/components/schemas/Version'}
+        target_version_id: {type: [string, 'null'], format: uuid, description: 新操作须引用同商户当前目标版本。版本已替换时返回 409 target_version_conflict。}
+        channel_binding_id: {type: [string, 'null'], format: uuid}
+        quote:
+          anyOf:
+            - $ref: '#/components/schemas/QuoteInput'
+              unevaluatedProperties: false
+            - {type: 'null'}
+        expected_version: {type: integer, format: int64, minimum: 0}
+    OrderSummary:
+      type: object
+      required: [id, order_number, merchant_id, direction, source_amount, source_asset, destination_asset, status, current_stage, hold_reason, next_action, version, current_version, created_at, version_created_at, operator_name, recorded_by_name, profile_version]
+      properties:
+        id: {$ref: '#/components/schemas/UUID'}
+        order_number: {type: string}
+        merchant_id: {$ref: '#/components/schemas/UUID'}
+        direction: {$ref: '#/components/schemas/Direction'}
+        source_amount: {$ref: '#/components/schemas/Decimal'}
+        source_asset: {type: string, enum: [USD, HKD, USDT]}
+        destination_asset: {type: string, enum: [USD, HKD, USDT]}
+        status: {type: string, enum: [blocked]}
+        current_stage: {type: string, enum: [materials]}
+        hold_reason: {type: string}
+        next_action: {type: string}
+        version: {$ref: '#/components/schemas/Version'}
+        current_version: {$ref: '#/components/schemas/Version'}
+        created_at: {$ref: '#/components/schemas/Timestamp'}
+        version_created_at: {$ref: '#/components/schemas/Timestamp'}
+        operator_name: {type: string}
+        recorded_by_name: {type: string}
+        profile_version: {$ref: '#/components/schemas/Version'}
+        target_version_id: {$ref: '#/components/schemas/UUID'}
+        channel_binding_id: {$ref: '#/components/schemas/UUID'}
+    Stage:
+      type: object
+      required: [code,label,status,reason,created_at]
+      properties:
+        code: {type: string}
+        label: {type: string}
+        status: {type: string, enum: [recorded, blocked, pending]}
+        reason: {type: string}
+        created_at: {type: string, format: date-time, description: 该版本的阶段记录写入时间}
+    Step:
+      type: object
+      required: [id,stage_code,action,label,status]
+      properties:
+        id: {$ref: '#/components/schemas/UUID'}
+        stage_code: {type: string}
+        action: {type: string}
+        label: {type: string}
+        status: {type: string, enum: [planned]}
+        instance_id: {$ref: '#/components/schemas/UUID'}
+        binding_id: {$ref: '#/components/schemas/UUID'}
+    OrderDetail:
+      allOf:
+        - $ref: '#/components/schemas/OrderSummary'
+        - type: object
+          required: [instruction, pinned_profile, stages, steps]
+          properties:
+            instruction: {type: string}
+            pinned_profile: {$ref: 'resources.openapi.yaml#/components/schemas/Profile'}
+            pinned_target: {$ref: 'resources.openapi.yaml#/components/schemas/Target'}
+            pinned_binding: {$ref: 'resources.openapi.yaml#/components/schemas/Binding'}
+            quote:
+              allOf:
+                - $ref: '#/components/schemas/QuoteInput'
+                - required: [version,expired]
+                  properties:
+                    version: {$ref: '#/components/schemas/Version'}
+                    expired: {type: boolean}
+            stages: {type: array, items: {$ref: '#/components/schemas/Stage'}}
+            steps: {type: array, items: {$ref: '#/components/schemas/Step'}}
+    OrderEnvelope:
+      type: object
+      required: [order]
+      properties:
+        order: {$ref: '#/components/schemas/OrderDetail'}
