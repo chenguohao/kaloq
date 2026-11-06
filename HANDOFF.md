@@ -1,39 +1,46 @@
 # Meta
 
-- Updated: 2026-11-05 22:13:09 (Asia/Shanghai)
+- Updated: 2026-11-06 12:31:19 (Asia/Shanghai)
 - Agent: Codex
 - State: done
 
 # Goal
 
-将正式版登录页中央楼宇装饰图标替换为官网图标，并同步独立沙盒。
+交付 Day3 商户业务单、阶段进度、资料与目标版本，并在独立正式沙盒验收。
 
 # Done
 
-- 已将用户截图中标记的楼宇 SVG 替换为本地托管的 Kaloq 官网 favicon，位置与尺寸经桌面截图确认。
-- 前端构建通过；Chrome 320、375、390、768、1280px 检查无横向溢出或页面错误。
-- 已部署独立正式沙盒 release 20261105T141148Z；公网登录页 200，脚本加载且引用新图标，healthz 200，未登录 me 401。
-- 代码、视觉证据已本地提交 23b1f36；未 push。
+- 运营可登记开户与 VA 来源、商户银行或链上目标，创建双向订单、修订并回看原始指令、报价、绑定实例及计划子单。卡点与下一步在详情显示。
+- 沙盒通过环境配置使用 HKD，正式环境缺省 USD，旧单沿用原币种。写入支持原请求重试，跨商户、过期目标及版本冲突均被拦截。
+- 旧 Demo 单条映射工具通过运营 API 登记待核验资料，校验所选用户、商户资料版本、实例及 VA 回执。测试使用虚构数据。
+- 003、004 只新增表与约束。旧库迁移后六张既有表内容一致，昨日程序用原会话读写商户成功；B 实例复用外部编号后 A 订单仍可读取原版本。资金模型 SQL 草案在隔离库试建并回滚。
+- 全套 Go 竞态测试、vet 和前端构建通过。真实浏览器在隔离库完成双向建单、响应丢失重试、历史修订及手机布局检查。
+- 已发布 20261106T042611Z。远端四份迁移校验和一致，迁移前备份存在。正式与 Demo 服务均 active。公网登录、Day3 健康检查与密码挑战成功，受保护订单接口对匿名或仅密码挑战返回 401。
+- 临时后端与数据库已关闭。代码与验收文档均已本地提交，本轮未 push。
 
 # In progress
 
-- 无，本次图标替换已完成。
+本轮 Day3 开发与发布完成，待业务按操作说明试用。
 
 # Blocked/questions
 
-- 无本轮阻塞。后续资金功能和真实设备验收仍按原基线进行。
+- 真实旧客户与正式商户的映射需逐条核定；本轮未迁入真实客户资料。
+- 网络、开户资格、实际到账与通道权限仍待外部证据。Day3 登记订单与计划，资金冻结、审批、执行仍按后续验收门槛推进。
+- 无恢复码人工重置的授权规则和真实电脑/手机凭证验收继续跟进。
 
 # Next
 
-1. 用户可刷新 https://v-2077.com/kaloq-v1/ 查看中央官网图标。
-2. 后续有 push 指令再同步 Git 远端。
+1. 运营登录正式沙盒，从商户工作台创建一单并查看卡点与历史版本。
+2. Day4 实施分账与冻结，用并发超额、重复提交、单步失败回滚验证资金原子性。
+3. 获得明确指令后再 push。
 
 # Evidence
 
-- v1.0/apps/web/src/App.tsx
-- v1.0/apps/web/src/brand.css
-- v1.0/apps/web/public/brand/kaloq-favicon.ico
-- v1.0/docs/design/evidence/current-workspace/login-desktop.png
-- v1.0/docs/design/evidence/current-workspace/checks.json
-- 代码提交 23b1f36；本交接自身提交由 git log -1 -- HANDOFF.md 定位。
-- 正式沙盒 release 20261105T141148Z：页面 200，新 JS 200 且包含官网图标引用，healthz 200，未登录 me 401。
+- Day3 代码及迁移提交 112171b
+- Day3 验收与设计文档提交 4bec0ce
+- v1.0/docs/day-03/README.md
+- v1.0/docs/day-03/design-review.md
+- v1.0/docs/day-03/evidence/browser.json
+- v1.0/docs/day-03/evidence/full-check.log
+- v1.0/docs/day-03/evidence/public.json
+- https://v-2077.com/kaloq-v1/
